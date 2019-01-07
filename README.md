@@ -1,4 +1,11 @@
+This is a game of Tic-Tac-toe
 
+You will be able to do the following:
+
+1) Create a login/username
+2) Play a game of Tic-tac-toe
+3) Be able to see how many games you played vs won
+4) 
 
 
 
