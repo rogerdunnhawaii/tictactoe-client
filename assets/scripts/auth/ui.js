@@ -9,7 +9,10 @@ const onCreateUserSuccess = (response) => {
 }
 
 const onCreateUserFailure = () => {
-  alert('Error on sign up')
+  $('#Message').html('Error on sign up')
+  $('#sign-up-modal').fadeOut(500, function () {
+    $('#sign-up-modal').modal('hide')
+  })
 }
 
 const onSignInSuccess = (responseData) => {
@@ -25,6 +28,9 @@ const onSignInSuccess = (responseData) => {
 
 const onSignInFailure = () => {
   $('#Message').html('Unable to sign in')
+  $('#sign-in-modal').fadeOut(500, function () {
+    $('#sign-in-modal').modal('hide')
+  })
 }
 
 const onChangePasswordSuccess = (responseData) => {
@@ -33,7 +39,11 @@ const onChangePasswordSuccess = (responseData) => {
 }
 
 const onChangePasswordFailure = () => {
+  console.log('change password')
   $('#Message').html('Unable to change password because wrong password')
+  $('#change-password-modal').fadeOut(500, function () {
+    $('#change-password-modal').modal('hide')
+  })
 }
 
 const onSignOutSuccess = (responseData) => {
