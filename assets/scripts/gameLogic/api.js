@@ -1,5 +1,5 @@
-const config = require('../scripts/config')
-const store = require('../scripts/store')
+const config = require('../config')
+const store = require('../store')
 
 const gameIndex = function () {
   return $.ajax({
@@ -65,7 +65,7 @@ const updateTurn = function (cellId, xOrO) {
           'index': cellId,
           'value': xOrO
         },
-        'over': false
+        'over': store.game.over
       }
     }
   })
