@@ -20,6 +20,13 @@ const onCreateGame = function (event) {
     .catch(ui.onCreateGameFailure)
 }
 
+const onViewGame = function (id) {
+  event.preventDefault()
+  api.viewGame(id)
+    .then(ui.onViewGameSuccess)
+    .catch(ui.onViewGameFailure)
+}
+
 const onShowGame = function (event) {
   event.preventDefault()
   const data = getFormFields(event.target)
@@ -68,5 +75,6 @@ module.exports = {
   onCreateGame,
   onShowGame,
   onUpdateGame,
-  onClick
+  onClick,
+  onViewGame
 }

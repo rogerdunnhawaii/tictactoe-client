@@ -18,7 +18,8 @@ $(() => {
   $('#create-game').on('click', gameEvents.onCreateGame)
   $('#show-game').on('submit', gameEvents.onShowGame)
   $('#update-game').on('submit', gameEvents.onUpdateGame)
-
+  $('.view-game').click(console.log('hi'))
+  // $('.view-game').on('submit', gameEvents.onViewGame)
   $('.box').click(gameEvents.onClick)
   // $('#zero').click(gameEvents.onClickBoxZero)
   // $('#one').on('click', gameEvents.onClickBoxOne)

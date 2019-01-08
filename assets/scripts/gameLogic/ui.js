@@ -3,7 +3,18 @@ const decision = require('./decision')
 
 const onGameIndexSuccess = function (responseData) {
   console.log('responseData is:', responseData)
-  $('#display').empty().append(responseData)
+  responseData.games.forEach(games => {
+    const gamesHTML = (`
+      <tr>
+        <td><button type="button" class="view-game btn-line clickable">View</button>
+        <td> ${games.id}</td>
+        <td> ${games.cells}</td>
+        <td> ${games.over}</td>
+        <td> ${games.player_x.email}</td>
+      </tr>
+     `)
+    $('#game-table-body').append(gamesHTML)
+  })
 }
 
 const onCreateGameSuccess = function (responseData) {
@@ -28,6 +39,23 @@ const onCreateGameSuccess = function (responseData) {
 
 const onCreateGameFailure = function () {
   alert('Unable to create game')
+}
+
+const onViewGameSuccess = function (responseData) {
+  store.game = responseData.game
+  console.log('Stored game is:', store.game)
+  console.log('Stored cell is:', store.game.cells)
+  for (let i = 0; i < store.game.cells.length; i++) {
+    $(`div[data-cell-index=${i}]`).text(store.game.cells[i])
+  }
+  $('#modalGameList').fadeOut(500, function () {
+    $('#modalGameList').modal('hide')
+  })
+  $('#insideGrid').show()
+}
+
+const onViewGameFailure = function () {
+  console.log('failure')
 }
 
 const onShowGameSuccess = function (responseData) {
@@ -58,5 +86,7 @@ module.exports = {
   onShowGameSuccess,
   onUpdateGameSuccess,
   onUpdateGameFailure,
-  onCreateGameFailure
+  onCreateGameFailure,
+  onViewGameSuccess,
+  onViewGameFailure
 }

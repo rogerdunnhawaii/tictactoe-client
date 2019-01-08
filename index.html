@@ -110,6 +110,36 @@
             </div>
             </div>
 
+            <div class="modal fade" id="modalGameList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modalGameListTitle">Game List</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div id="game-list" class="modal-body">
+
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Game ID</th>
+                        <th>Cells</th>
+                        <th>Over</th>
+                        <th>Player X</th>
+                      </tr>
+                    </thead>
+                      <tbody id="game-table-body"></tbody>
+
+                  </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
           <h1>Roger's Version of Tic Tac Toe</h1>
 
               <div id="Message"></div>
@@ -135,15 +165,14 @@
           <div class="col-4 box" data-cell-index=8 id='eight'>8</div>
         </div>
       </div>
-      <div class="col-6 col-md-4 right-side">
-      <div class="row bottom">
+
+        <div class="col-6 col-md-4 right-side">
+          <button class="btn btn-primary" id='game-index' data-toggle="modal" data-target="#modalGameList">See all past games played</button>
+
         <div class="col-12 game">
-          <button class="btn btn-primary" id='game-index'>See all past games played</button>
+          <button id='create-game' class="btn btn-primary">Start a New Game</button>
         </div>
         <div class="col-12 game">
-          <button id='create-game' class="btn btn-primary">Start a New Game  </button>
-        </div>
-        <div class="col-12 game ">
           <form id='show-game'>
             <input class='show-input' type="number" name="game[id]" placeholder="Game ID">
             <input class="btn btn-primary--crisp btn-primary" type="submit" value="Show a Past Game">
