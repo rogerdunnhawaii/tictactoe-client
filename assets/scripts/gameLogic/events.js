@@ -66,7 +66,6 @@ const onClick = function () {
       .then(ui.onUpdateGameSuccess)
       .catch(ui.onUpdateGameFailure)
     decision.determineValue()
-    console.log('store game after', store.game)
   }
 }
 

@@ -1,7 +1,6 @@
 const store = require('../store')
 
 const onCreateUserSuccess = (response) => {
-  console.log(response)
   $('#Message').html('Successfully signed up, now please Sign In')
   $('#sign-up-modal').fadeOut(500, function () {
     $('#sign-up-modal').modal('hide')
@@ -35,11 +34,9 @@ const onSignInFailure = () => {
 
 const onChangePasswordSuccess = (responseData) => {
   $('#Message').html('Successfully changed password')
-  console.log('Store is: ', store)
 }
 
 const onChangePasswordFailure = () => {
-  console.log('change password')
   $('#Message').html('Unable to change password because wrong password')
   $('#change-password-modal').fadeOut(500, function () {
     $('#change-password-modal').modal('hide')

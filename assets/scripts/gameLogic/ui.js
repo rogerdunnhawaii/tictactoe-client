@@ -2,7 +2,6 @@ const store = require('../store')
 const decision = require('./decision')
 
 const onGameIndexSuccess = function (responseData) {
-  console.log('responseData is:', responseData)
   responseData.games.forEach(games => {
     const gamesHTML = (`
       <tr>
@@ -34,7 +33,6 @@ const onCreateGameSuccess = function (responseData) {
   store.symbol = 'x'
   store.lastmove = null
   store.turn = null
-  console.log('store after create game is: ', store)
 }
 
 const onCreateGameFailure = function () {
@@ -43,8 +41,6 @@ const onCreateGameFailure = function () {
 
 const onViewGameSuccess = function (responseData) {
   store.game = responseData.game
-  console.log('Stored game is:', store.game)
-  console.log('Stored cell is:', store.game.cells)
   for (let i = 0; i < store.game.cells.length; i++) {
     $(`div[data-cell-index=${i}]`).text(store.game.cells[i])
   }
@@ -55,25 +51,21 @@ const onViewGameSuccess = function (responseData) {
 }
 
 const onViewGameFailure = function () {
-  console.log('failure')
+  $('#Message').html('failure')
 }
 
 const onShowGameSuccess = function (responseData) {
   store.game = responseData.game
-  console.log('Stored game is:', store.game)
-  console.log('Stored cell is:', store.game.cells)
   for (let i = 0; i < store.game.cells.length; i++) {
     $(`div[data-cell-index=${i}]`).text(store.game.cells[i])
   }
   const turns = decision.movesSoFar(store)
-  $('#display').html('# of turns: ', turns)
+  $('#Message').html('# of turns: ', turns)
   store.turns = turns
 }
 
 const onUpdateGameSuccess = function (responseData) {
   store.game = responseData.game
-  console.log(store.game)
-  console.log('store game after update', store.game)
 }
 
 const onUpdateGameFailure = function () {
