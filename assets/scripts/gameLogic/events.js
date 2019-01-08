@@ -1,8 +1,8 @@
-const api = require('./api.js')
-const ui = require('./ui.js')
-const decision = require('./decision.js')
-const getFormFields = require('../../lib/get-form-fields.js')
-const store = require('../scripts/store')
+const api = require('./api')
+const ui = require('./ui')
+const decision = require('./decision')
+const getFormFields = require('../../../lib/get-form-fields')
+const store = require('../store')
 
 const onGameIndex = function (event) {
   event.preventDefault()
@@ -37,26 +37,31 @@ const onUpdateGame = function (event) {
 }
 
 const onClick = function () {
+  const turns = decision.countClicks()
   const cellId = $(this).attr('data-cell-index')
   if (decision.alreadyHasAValue(store, cellId)) {
-    alert('choose a different cell')
+    $('#Message').html('choose a different cell')
   } else {
-    const xOrO = decision.determineValue(store)
-    $(this).text(xOrO)
-    console.log('X or O:', xOrO)
-    decision.clickBox(cellId, xOrO)
-    console.log('value of store', store)
-    const turns = decision.movesSoFar(store)
-    console.log(turns)
-    store.turns = turns
-    decision.clickWinner(turns)
-    api.updateTurn(cellId, xOrO)
+    if (store.game.cells.every(x => x === '')) {
+      store.lastmove = 'x'
+      $(this).text(store.lastmove)
+    }
+    $(this).text(store.lastmove)
+    const xOrO = store.lastmove
+    if (xOrO === 'o') {
+      $('#Message').html(`It is Player X's Turn`)
+    } else {
+      $('#Message').html(`It is Player O's Turn`)
+    }
+    decision.isWinner(cellId, xOrO)
+    decision.isTied(turns)
+    api.updateTurn(cellId, store.lastmove)
       .then(ui.onUpdateGameSuccess)
       .catch(ui.onUpdateGameFailure)
+    decision.determineValue()
+    console.log('store game after', store.game)
   }
 }
-
-
 
 module.exports = {
   onGameIndex,
