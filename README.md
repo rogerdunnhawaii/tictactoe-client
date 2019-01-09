@@ -7,6 +7,17 @@ You will be able to do the following:
 3) Be able to see how many games you played vs won
 4) 
 
+Pin your repository on GitHub as a Popular Repository
+
+Complete the repository Description field and Website field with a meaningful sentence description of the application and link to the live URL github image
+
+List technologies used: HTML, CSS, JavaScript
+
+Document your planning and tell a story about your development process and problem-solving strategy.
+
+List unsolved problems which would be fixed in future iterations.
+
+Link to wireframes and user stories.
 
 
 <!-- [![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)

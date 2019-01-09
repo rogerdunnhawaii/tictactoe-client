@@ -22,7 +22,7 @@ const onSignInSuccess = (responseData) => {
     $('#sign-in-modal').modal('hide')
   })
   $('#insideGrid').show()
-  $('#sign-out').show()
+  $('.sign-out-div').show()
 }
 
 const onSignInFailure = () => {
