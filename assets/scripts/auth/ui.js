@@ -17,18 +17,25 @@ const onCreateUserFailure = () => {
 }
 
 const onSignInSuccess = (responseData) => {
-  $('.bottom').show()
+  // message to user
   $('#Message').html('Successfully Signed in')
+
+  //  store user data
   store.user = responseData.user
+
+  //  fade out sign-in box
   $('#sign-in-modal').fadeOut(500, function () {
     $('#sign-in-modal').modal('hide')
   })
-  $('#insideGrid').show()
+  // buttons
   $('.sign-out-div').show()
   $('.change-password-button').show()
   $('.sign-in-button').hide()
   $('.sign-up-button').hide()
+
+  // reset content in sign in form
   $('#sign-in').trigger('reset')
+  $('.bottom-grid').show()
 }
 
 const onSignInFailure = () => {
@@ -54,11 +61,12 @@ const onChangePasswordFailure = () => {
 const onSignOutSuccess = (responseData) => {
   $('#Message').html('Successfully signed out')
   store.user = null
-  $('#insideGrid').hide()
+  store.game = null
   $('.change-password-button').hide()
   $('.sign-up-button').show()
   $('.sign-in-button').show()
   $('.sign-out-div').hide()
+  $('.bottom-grid').hide()
 }
 
 const onSignOutFailure = () => {

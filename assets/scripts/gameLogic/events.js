@@ -11,6 +11,10 @@ const onGameIndex = function (event) {
     .catch(ui.onGameIndexFailure)
 }
 
+const onClose = function () {
+  store.games = 'null'
+}
+
 const onCreateGame = function (event) {
   event.preventDefault()
   store.game = null
@@ -22,8 +26,9 @@ const onCreateGame = function (event) {
 }
 
 const onViewGame = function () {
-  event.preventDefault()
-  api.viewGame()
+  $('#insideGrid').show()
+  const id = $(this).attr('id')
+  api.viewGame(id)
     .then(ui.onViewGameSuccess)
     .catch(ui.onViewGameFailure)
 }
@@ -35,8 +40,6 @@ const onShowGame = function (event) {
     .then(ui.onShowGameSuccess)
     .catch(ui.onShowGameFailure)
 }
-
-const onShowPastGame = function () {}
 
 const onUpdateGame = function (event) {
   event.preventDefault()
@@ -80,5 +83,6 @@ module.exports = {
   onShowGame,
   onUpdateGame,
   onClick,
-  onViewGame
+  onViewGame,
+  onClose
 }
