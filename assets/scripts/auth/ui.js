@@ -19,7 +19,8 @@ const onCreateUserFailure = () => {
 const onSignInSuccess = (responseData) => {
   // message to user
   $('#Message').html('Successfully Signed in')
-
+  $('.bottom-buttons').show()
+  $('.bottom-grid').hide()
   //  store user data
   store.user = responseData.user
 
@@ -35,7 +36,7 @@ const onSignInSuccess = (responseData) => {
 
   // reset content in sign in form
   $('#sign-in').trigger('reset')
-  $('.bottom-grid').show()
+  console.log('onSignInSuccess store', store)
 }
 
 const onSignInFailure = () => {

@@ -17,7 +17,8 @@ const onClose = function () {
 
 const onCreateGame = function (event) {
   event.preventDefault()
-  store.game = null
+  store.game = {}
+  // console.log('after store.game', store.game)
   store.lastmove = 'x'
   $('.box').text('')
   api.createGame()
@@ -51,6 +52,7 @@ const onUpdateGame = function (event) {
 }
 
 const onClick = function () {
+  console.log('click')
   if (store.game.over === false) {
     const turns = decision.countClicks()
     const cellId = $(this).attr('data-cell-index')
@@ -74,6 +76,7 @@ const onClick = function () {
         .then(ui.onUpdateGameSuccess)
         .catch(ui.onUpdateGameFailure)
       decision.determineValue()
+      console.log('store in onClick', store)
     }
   }
 }

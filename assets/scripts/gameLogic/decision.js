@@ -137,11 +137,11 @@ const isWinner = function (cellId, xOrO) {
   if (store.sumOfRow1 === 3 || store.sumOfRow2 === 3 || store.sumOfRow3 === 3 || store.sumOfCol1 === 3 || store.sumOfCol2 === 3 || store.sumOfCol3 === 3 || store.sumOfDiag === 3 || store.sumOfAntiDiag === 3) {
     $('#Message').html('Player X is the Winner')
     store.game.over = true
-    $('.box').off('click')
+    // $('.box').off('click')
   } else if (store.sumOfRow1 === -3 || store.sumOfRow2 === -3 || store.sumOfRow3 === -3 || store.sumOfCol1 === -3 || store.sumOfCol2 === -3 || store.sumOfCol3 === -3 || store.sumOfDiag === -3 || store.sumOfAntiDiag === -3) {
     $('#Message').text('Player O is the Winner')
     store.game.over = true
-    $('.box').off('click')
+    // $('.box').off('click')
   }
 }
 

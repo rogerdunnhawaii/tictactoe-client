@@ -19,10 +19,12 @@ const onGameIndexSuccess = function (responseData) {
 
 const onCreateGameSuccess = function (responseData) {
   $('#Message').text(`Successfully created game, It is Player X's Turn`)
-  $('.tictactoe-grid').show()
+  $('.bottom-grid').show()
   $('#insideGrid').show()
-  $('.box').on('click', gameEvents.onClick)
+  $('.tictactoe-grid').show()
+  // $('.box').on('click', gameEvents.onClick)
   store.game = responseData.game
+  console.log('in onCreateGameSuccess after store.game', store.game)
   store.countOfO = 0
   store.countOfX = 0
   store.sumOfRow1 = 0
