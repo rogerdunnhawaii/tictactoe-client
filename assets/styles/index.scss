@@ -12,8 +12,12 @@ $black-color: #000;
 // used a google font
 body {
   font-family: 'Happy Monkey', cursive;
+  background-color: blue;
 }
 
+#Message {
+  color:white;
+}
 // how I created the tic tac toe grid
 .container {
   .row {
