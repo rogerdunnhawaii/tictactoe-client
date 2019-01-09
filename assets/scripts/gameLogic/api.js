@@ -21,6 +21,16 @@ const createGame = function () {
   })
 }
 
+const viewGame = function () {
+  return $.ajax({
+    url: config.apiUrl + '/games/' + store.games.id,
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
 const showGame = function (data) {
   const id = data.game.id
   return $.ajax({
@@ -33,7 +43,6 @@ const showGame = function (data) {
 }
 
 const updateGame = function (data) {
-  console.log(data)
   return $.ajax({
     url: config.apiUrl + '/games/' + store.game.id,
     method: 'PATCH',
@@ -79,6 +88,6 @@ module.exports = {
   createGame,
   showGame,
   updateGame,
-  updateTurn
-//  onClick
+  updateTurn,
+  viewGame
 }

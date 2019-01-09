@@ -1,14 +1,12 @@
 const store = require('../store')
 
 const alreadyHasAValue = function (store, cellId) {
-  console.log(store)
   const gameBoard = store.game.cells
   if (gameBoard === 'undefined') {
-    $('#display').text('Please sign up or sign in')
-    console.log('hi')
+    $('#Message').text('Please sign up or sign in')
   }
   if (gameBoard[cellId] === 'x' || gameBoard[cellId] === 'o') {
-    $('#display').text('Choose a different cell')
+    $('#Message').text('Choose a different cell')
     return true
   } else {
     return false
@@ -43,31 +41,22 @@ const movesSoFar = function (store) {
 }
 
 const clickBox = function (cellId, xOrO) {
-  // const cells = store.game.cells
-  // console.log(cells)
-  // store.lastmove = xOrO
   store.game.cells[cellId] = xOrO
-  console.log('click box store', store.game.cells)
 }
 
 const countClicks = function () {
   const turnNum = ++store.turn
-  console.log('# of clicks', turnNum)
   return turnNum
 }
 
 const isTied = function (turns) {
   if (turns === 9) {
-    console.log('Game is Over, no more moves possible')
     store.game.over = true
     $('#Message').empty().append('Game is Over')
   }
 }
 
 const isWinner = function (cellId, xOrO) {
-  console.log('inside ClickWinner cellId:', cellId)
-  console.log('inside ClickWinner xOrO:', xOrO)
-
   if (xOrO === 'x') {
     // cell[0]
     if (cellId === '0') {
@@ -144,14 +133,6 @@ const isWinner = function (cellId, xOrO) {
       store.sumOfDiag--
     }
   }
-  console.log('sumOfRow1 is: ', store.sumOfRow1)
-  console.log('sumOfRow2 is: ', store.sumOfRow2)
-  console.log('sumOfRow3 is: ', store.sumOfRow3)
-  console.log('sumOfCol1 is: ', store.sumOfCol1)
-  console.log('sumOfCol2 is: ', store.sumOfCol2)
-  console.log('sumOfCol3 is: ', store.sumOfCol3)
-  console.log('sumOfDiag is: ', store.sumOfDiag)
-  console.log('sumOfAntiDiag is: ', store.sumOfAntiDiag)
 
   if (store.sumOfRow1 === 3 || store.sumOfRow2 === 3 || store.sumOfRow3 === 3 || store.sumOfCol1 === 3 || store.sumOfCol2 === 3 || store.sumOfCol3 === 3 || store.sumOfDiag === 3 || store.sumOfAntiDiag === 3) {
     $('#Message').html('Player X is the Winner')

@@ -2,14 +2,23 @@
 
 $black-color: #000;
 
-// div {
-//   border: 1px $black-color solid;
-// }
+// made row 100% so it would span width of screen
 .wrapper {
   .row {
     width: 100%;
   }
 }
+
+// used a google font
+body {
+  font-family: 'Happy Monkey', cursive;
+  background-color: blue;
+}
+
+#Message {
+  color:white;
+}
+// how I created the tic tac toe grid
 .container {
   .row {
     &:nth-of-type(2) {
@@ -24,13 +33,26 @@ $black-color: #000;
     }
   }
 }
+
+// set the tic tac toe grid to be 150px high and a font-size of 80pixels
+
 .grid > div {
   height: 150px;
-  font-size: 80px;
+  font-size: 100px;
+  // color: #DF3AFF;
+  // background-color: #35E8CD;
 }
 
+.change-password-button {
+  display: none;
+}
+// update class has a width of 60px for input boxes
 .update {
   width: 60px;
+}
+
+#update-game {
+  align-content:center;
 }
 
 #show-game{
@@ -41,11 +63,10 @@ $black-color: #000;
 
 .btn.btn-primary--crisp {
   border-radius: 0;
-  margin-left: 0;
   margin-top: 0;
 }
 
-#sign-out {
+.sign-out-div {
   display: none;
 }
 
@@ -57,14 +78,11 @@ $black-color: #000;
   display: flex;
   justify-content: center;
 }
+
 #create-user, #sign-in, #change-password {
   display: flex;
   flex-direction:column;
 }
-
-// input.btn.btn-primary {
-//   margin-top: 0;
-// }
 
 .right-side {
   text-align: center;
@@ -79,22 +97,20 @@ $black-color: #000;
 .game {
   display: flex;
   height: 100px;
-  justify-content: flex-end;
-}
-
-.right-side {
-  .btn {
-    // margin-right: 0;
-  }
 }
 
 .bottom {
   align-items: center;
   display: flex;
   flex-grow: 1;
-   // display: none;
 }
 
+.bottom-buttons, #update-game {
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  align-content: center;
+}
 .box {
   align-items: center;
   display: flex;
@@ -105,35 +121,27 @@ $black-color: #000;
 h1 {
   margin: 20px 0 30px 0;
   text-align: center;
+  color:#DF3AFF;
 }
 
 .btn {
   margin: 30px;
 }
 
-// .wrapper {
-//   align-items: flex-start;
-//   display: flex;
-//   flex-direction: column;
-//   height: 900px;
-//   justify-content: center;
-//   width: auto;
-// }
-
 #insideGrid {
   display: none;
+  margin-top: 40px;
+  color: #35E8CD;
 }
 
-.nav.btn-primary {
-  // margin-left:0;
-  // margin-right: 0;
-}
 #Message {
   text-align: center;
 }
-nav {
+
+nav.row, .nav {
   display: flex;
   flex-direction: row;
+  flex-grow: 1;
   justify-content: center;
 }
 
