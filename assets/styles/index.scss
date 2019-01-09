@@ -70,9 +70,9 @@ body {
   display: none;
 }
 
-.tictactoe-grid {
-  display: none;
-}
+// .tictactoe-grid {
+//   display: none;
+// }
 
 .bottom-grid {
   display: flex;
@@ -105,11 +105,12 @@ body {
   flex-grow: 1;
 }
 
-.bottom-buttons, #update-game {
+.bottom-buttons {
   display: flex;
   flex-direction:column;
   align-items: center;
   align-content: center;
+  display: none;
 }
 .box {
   align-items: center;
@@ -129,7 +130,7 @@ h1 {
 }
 
 #insideGrid {
-  display: none;
+//  display: none;
   margin-top: 40px;
   color: #35E8CD;
 }

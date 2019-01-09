@@ -151,36 +151,36 @@
     <div class="row bottom-grid">
       <div class="col-12 col-md-8 tictactoe-grid">
         <div class="row grid">
-          <div class="col-4 box" data-cell-index=0 id='zero'>0</div>
-          <div class="col-4 box" data-cell-index=1 id='one'>1</div>
-          <div class="col-4 box" data-cell-index=2 id='two'>2</div>
+          <div class="col-4 box" data-cell-index=0 id='zero'></div>
+          <div class="col-4 box" data-cell-index=1 id='one'></div>
+          <div class="col-4 box" data-cell-index=2 id='two'></div>
         </div>
         <div class="row grid">
-          <div class="col-4 box" data-cell-index=3 id='three'>3</div>
-          <div class="col-4 box" data-cell-index=4 id='four'>4</div>
-          <div class="col-4 box" data-cell-index=5 id='five'>5</div>
+          <div class="col-4 box" data-cell-index=3 id='three'></div>
+          <div class="col-4 box" data-cell-index=4 id='four'></div>
+          <div class="col-4 box" data-cell-index=5 id='five'></div>
         </div>
         <div class="row grid">
-          <div class="col-4 box" data-cell-index=6 id='six'>6</div>
-          <div class="col-4 box" data-cell-index=7 id='seven'>7</div>
-          <div class="col-4 box" data-cell-index=8 id='eight'>8</div>
+          <div class="col-4 box" data-cell-index=6 id='six'></div>
+          <div class="col-4 box" data-cell-index=7 id='seven'></div>
+          <div class="col-4 box" data-cell-index=8 id='eight'></div>
         </div>
       </div>
-      <div class="bottom-buttons">
-          <button id='create-game' class="btn btn-primary">Start a New Game</button>
-          <button class="btn btn-primary" id='game-index' data-toggle="modal" data-target="#modalGameList">See all past games played</button>
-          <form id='show-game'>
-            <input class='show-input' type="number" name="game[id]" placeholder="Game ID">
-            <input class="btn btn-primary--crisp btn-primary" type="submit" value="Show a Past Game">
-          </form>
-          <form id='update-game'>
-            <input class='update' name="game[cell][index]" type="text" value="0">
-            <input class='update' name="game[cell][value]" type="text" value="x">
-            <input class='update' name="game[over]" type="text" value="false">
-            <input type="submit" class="btn btn-primary" value="Update Game">
-          </form>
-          <button class="btn btn-primary">Watch Game</button>
-      </div>
+    </div>
+    <div class="bottom-buttons">
+        <button id='create-game' class="btn btn-primary">Start a New Game</button>
+       <button class="btn btn-primary" id='game-index' data-toggle="modal" data-target="#modalGameList">See all past games played</button>
+   <!-- <form id='show-game'>
+          <input class='show-input' type="number" name="game[id]" placeholder="Game ID">
+          <input class="btn btn-primary-crisp btn-primary" type="submit" value="Show a Past Game">
+        </form>
+     <form id='update-game'>
+          <input class='update' name="game[cell][index]" type="text" value="0">
+          <input class='update' name="game[cell][value]" type="text" value="x">
+          <input class='update' name="game[over]" type="text" value="false">
+          <input type="submit" class="btn btn-primary" value="Update Game">
+        </form>
+        <button class="btn btn-primary">Watch Game</button> -->
     </div>
     </div>
   </div>

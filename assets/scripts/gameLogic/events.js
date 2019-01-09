@@ -11,6 +11,10 @@ const onGameIndex = function (event) {
     .catch(ui.onGameIndexFailure)
 }
 
+const onClose = function () {
+  store.games = 'null'
+}
+
 const onCreateGame = function (event) {
   event.preventDefault()
   store.game = null
@@ -22,8 +26,10 @@ const onCreateGame = function (event) {
 }
 
 const onViewGame = function () {
-  event.preventDefault()
-  api.viewGame()
+  $('#insideGrid').show()
+  const id = $(this).attr('id')
+  console.log('id is: ', id)
+  api.viewGame(id)
     .then(ui.onViewGameSuccess)
     .catch(ui.onViewGameFailure)
 }
@@ -45,28 +51,30 @@ const onUpdateGame = function (event) {
 }
 
 const onClick = function () {
-  const turns = decision.countClicks()
-  const cellId = $(this).attr('data-cell-index')
-  if (decision.alreadyHasAValue(store, cellId)) {
-    $('#Message').html('choose a different cell')
-  } else {
-    if (store.game.cells.every(x => x === '')) {
-      store.lastmove = 'x'
-      $(this).text(store.lastmove)
-    }
-    $(this).text(store.lastmove)
-    const xOrO = store.lastmove
-    if (xOrO === 'o') {
-      $('#Message').html(`It is Player X's Turn`)
+  if (store.game.over === false) {
+    const turns = decision.countClicks()
+    const cellId = $(this).attr('data-cell-index')
+    if (decision.alreadyHasAValue(store, cellId)) {
+      $('#Message').html('choose a different cell')
     } else {
-      $('#Message').html(`It is Player O's Turn`)
+      if (store.game.cells.every(x => x === '')) {
+        store.lastmove = 'x'
+        $(this).text(store.lastmove)
+      }
+      $(this).text(store.lastmove)
+      const xOrO = store.lastmove
+      if (xOrO === 'o') {
+        $('#Message').html(`It is Player X's Turn`)
+      } else {
+        $('#Message').html(`It is Player O's Turn`)
+      }
+      decision.isTied(turns)
+      decision.isWinner(cellId, xOrO)
+      api.updateTurn(cellId, store.lastmove)
+        .then(ui.onUpdateGameSuccess)
+        .catch(ui.onUpdateGameFailure)
+      decision.determineValue()
     }
-    decision.isWinner(cellId, xOrO)
-    decision.isTied(turns)
-    api.updateTurn(cellId, store.lastmove)
-      .then(ui.onUpdateGameSuccess)
-      .catch(ui.onUpdateGameFailure)
-    decision.determineValue()
   }
 }
 
@@ -76,5 +84,6 @@ module.exports = {
   onShowGame,
   onUpdateGame,
   onClick,
-  onViewGame
+  onViewGame,
+  onClose
 }

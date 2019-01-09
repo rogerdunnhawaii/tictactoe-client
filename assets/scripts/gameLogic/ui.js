@@ -3,11 +3,10 @@ const decision = require('./decision')
 const gameEvents = require('./events')
 
 const onGameIndexSuccess = function (responseData) {
-  store.games = responseData.games
   responseData.games.forEach(games => {
     const gamesHTML = (`
       <tr>
-        <td><button type="button" class="view-game btn-line clickable">View</button>
+        <td><button type="button" id='${games.id}' class="view-game btn-line clickable">View</button>
         <td> ${games.id}</td>
         <td> ${games.cells}</td>
         <td> ${games.over}</td>
@@ -21,7 +20,8 @@ const onGameIndexSuccess = function (responseData) {
 const onCreateGameSuccess = function (responseData) {
   $('#Message').text(`Successfully created game, It is Player X's Turn`)
   $('.tictactoe-grid').show()
-  $('#zero').on('click', gameEvents.onClick)
+  $('#insideGrid').show()
+  $('.box').on('click', gameEvents.onClick)
   store.game = responseData.game
   store.countOfO = 0
   store.countOfX = 0
@@ -39,18 +39,20 @@ const onCreateGameSuccess = function (responseData) {
 }
 
 const onCreateGameFailure = function () {
-  alert('Unable to create game')
+  $('#Message').html('Unable to create game')
 }
 
 const onViewGameSuccess = function (responseData) {
   store.game = responseData.game
+  console.log('onViewGameSuccess', responseData)
+  $('#insideGrid').show()
+  $('.tictactoe-grid').show()
   for (let i = 0; i < store.game.cells.length; i++) {
     $(`div[data-cell-index=${i}]`).text(store.game.cells[i])
   }
   $('#modalGameList').fadeOut(500, function () {
     $('#modalGameList').modal('hide')
   })
-  $('#insideGrid').show()
 }
 
 const onViewGameFailure = function () {
@@ -63,8 +65,10 @@ const onShowGameSuccess = function (responseData) {
     $(`div[data-cell-index=${i}]`).text(store.game.cells[i])
   }
   const turns = decision.movesSoFar(store)
-  $('#Message').html('# of turns: ', turns)
   store.turns = turns
+  $('#sign-up-modal').fadeOut(500, function () {
+    $('#sign-up-modal').modal('hide')
+  })
 }
 
 const onUpdateGameSuccess = function (responseData) {
@@ -72,7 +76,7 @@ const onUpdateGameSuccess = function (responseData) {
 }
 
 const onUpdateGameFailure = function () {
-  alert('Unable to update game')
+  $('#Message').html('Unable to update game')
 }
 
 module.exports = {

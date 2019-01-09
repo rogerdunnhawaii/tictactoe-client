@@ -13,21 +13,29 @@ const onCreateUserFailure = () => {
   $('#sign-up-modal').fadeOut(500, function () {
     $('#sign-up-modal').modal('hide')
   })
+  $('form').trigger('reset')
 }
 
 const onSignInSuccess = (responseData) => {
-  $('.bottom').show()
+  // message to user
   $('#Message').html('Successfully Signed in')
+
+  //  store user data
   store.user = responseData.user
+
+  //  fade out sign-in box
   $('#sign-in-modal').fadeOut(500, function () {
     $('#sign-in-modal').modal('hide')
   })
-  $('#insideGrid').show()
+  // buttons
   $('.sign-out-div').show()
   $('.change-password-button').show()
   $('.sign-in-button').hide()
   $('.sign-up-button').hide()
+
+  // reset content in sign in form
   $('#sign-in').trigger('reset')
+  $('.bottom-grid').show()
 }
 
 const onSignInFailure = () => {
@@ -35,6 +43,7 @@ const onSignInFailure = () => {
   $('#sign-in-modal').fadeOut(500, function () {
     $('#sign-in-modal').modal('hide')
   })
+  $('form').trigger('reset')
 }
 
 const onChangePasswordSuccess = (responseData) => {
@@ -46,16 +55,18 @@ const onChangePasswordFailure = () => {
   $('#change-password-modal').fadeOut(500, function () {
     $('#change-password-modal').modal('hide')
   })
+  $('form').trigger('reset')
 }
 
 const onSignOutSuccess = (responseData) => {
   $('#Message').html('Successfully signed out')
   store.user = null
-  $('#insideGrid').hide()
+  store.game = null
   $('.change-password-button').hide()
   $('.sign-up-button').show()
   $('.sign-in-button').show()
   $('.sign-out-div').hide()
+//  $('.tictactoe-grid').hide()
 }
 
 const onSignOutFailure = () => {
