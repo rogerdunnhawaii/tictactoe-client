@@ -5,6 +5,7 @@ const onCreateUserSuccess = (response) => {
   $('#sign-up-modal').fadeOut(500, function () {
     $('#sign-up-modal').modal('hide')
   })
+  $('#create-user').trigger('reset')
 }
 
 const onCreateUserFailure = () => {
@@ -23,6 +24,10 @@ const onSignInSuccess = (responseData) => {
   })
   $('#insideGrid').show()
   $('.sign-out-div').show()
+  $('.change-password-button').show()
+  $('.sign-in-button').hide()
+  $('.sign-up-button').hide()
+  $('#sign-in').trigger('reset')
 }
 
 const onSignInFailure = () => {
@@ -47,6 +52,10 @@ const onSignOutSuccess = (responseData) => {
   $('#Message').html('Successfully signed out')
   store.user = null
   $('#insideGrid').hide()
+  $('.change-password-button').hide()
+  $('.sign-up-button').show()
+  $('.sign-in-button').show()
+  $('.sign-out-div').hide()
 }
 
 const onSignOutFailure = () => {

@@ -39,9 +39,16 @@ body {
   // background-color: #35E8CD;
 }
 
+.change-password-button {
+  display: none;
+}
 // update class has a width of 60px for input boxes
 .update {
   width: 60px;
+}
+
+#update-game {
+  align-content:center;
 }
 
 #show-game{
@@ -94,6 +101,12 @@ body {
   flex-grow: 1;
 }
 
+.bottom-buttons, #update-game {
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  align-content: center;
+}
 .box {
   align-items: center;
   display: flex;
@@ -104,6 +117,7 @@ body {
 h1 {
   margin: 20px 0 30px 0;
   text-align: center;
+  color:#DF3AFF;
 }
 
 .btn {
@@ -113,6 +127,7 @@ h1 {
 #insideGrid {
   display: none;
   margin-top: 40px;
+  color: #35E8CD;
 }
 
 #Message {

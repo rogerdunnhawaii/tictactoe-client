@@ -2,6 +2,7 @@ const store = require('../store')
 const decision = require('./decision')
 
 const onGameIndexSuccess = function (responseData) {
+  store.games = responseData.games
   responseData.games.forEach(games => {
     const gamesHTML = (`
       <tr>

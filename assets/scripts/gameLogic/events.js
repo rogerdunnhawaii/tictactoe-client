@@ -20,9 +20,9 @@ const onCreateGame = function (event) {
     .catch(ui.onCreateGameFailure)
 }
 
-const onViewGame = function (id) {
+const onViewGame = function () {
   event.preventDefault()
-  api.viewGame(id)
+  api.viewGame()
     .then(ui.onViewGameSuccess)
     .catch(ui.onViewGameFailure)
 }
