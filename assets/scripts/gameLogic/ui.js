@@ -1,5 +1,6 @@
 const store = require('../store')
 const decision = require('./decision')
+const gameEvents = require('./events')
 
 const onGameIndexSuccess = function (responseData) {
   store.games = responseData.games
@@ -20,6 +21,7 @@ const onGameIndexSuccess = function (responseData) {
 const onCreateGameSuccess = function (responseData) {
   $('#Message').text(`Successfully created game, It is Player X's Turn`)
   $('.tictactoe-grid').show()
+  $('#zero').on('click', gameEvents.onClick)
   store.game = responseData.game
   store.countOfO = 0
   store.countOfX = 0

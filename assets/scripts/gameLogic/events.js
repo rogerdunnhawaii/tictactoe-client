@@ -14,6 +14,7 @@ const onGameIndex = function (event) {
 const onCreateGame = function (event) {
   event.preventDefault()
   store.game = null
+  store.lastmove = 'x'
   $('.box').text('')
   api.createGame()
     .then(ui.onCreateGameSuccess)
