@@ -6,7 +6,7 @@ const apiUrls = {
   production: 'https://aqueous-atoll-85096.herokuapp.com'
 }
 
-if (window.location.hostname === 'localhost') {
+if (window.location.hostname === 'https://github.com/rogerdunnhawaii/tictactoe-client/blob/master') {
   apiUrl = apiUrls.development
 } else {
   apiUrl = apiUrls.production
