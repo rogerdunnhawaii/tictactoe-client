@@ -13,6 +13,7 @@ const onCreateUserFailure = () => {
   $('#sign-up-modal').fadeOut(500, function () {
     $('#sign-up-modal').modal('hide')
   })
+  $('form').trigger('reset')
 }
 
 const onSignInSuccess = (responseData) => {
@@ -35,6 +36,7 @@ const onSignInFailure = () => {
   $('#sign-in-modal').fadeOut(500, function () {
     $('#sign-in-modal').modal('hide')
   })
+  $('form').trigger('reset')
 }
 
 const onChangePasswordSuccess = (responseData) => {
@@ -46,6 +48,7 @@ const onChangePasswordFailure = () => {
   $('#change-password-modal').fadeOut(500, function () {
     $('#change-password-modal').modal('hide')
   })
+  $('form').trigger('reset')
 }
 
 const onSignOutSuccess = (responseData) => {

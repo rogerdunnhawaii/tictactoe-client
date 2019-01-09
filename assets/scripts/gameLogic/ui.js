@@ -21,7 +21,7 @@ const onGameIndexSuccess = function (responseData) {
 const onCreateGameSuccess = function (responseData) {
   $('#Message').text(`Successfully created game, It is Player X's Turn`)
   $('.tictactoe-grid').show()
-  $('#zero').on('click', gameEvents.onClick)
+  $('.box').on('click', gameEvents.onClick)
   store.game = responseData.game
   store.countOfO = 0
   store.countOfX = 0
@@ -65,6 +65,9 @@ const onShowGameSuccess = function (responseData) {
   const turns = decision.movesSoFar(store)
   $('#Message').html('# of turns: ', turns)
   store.turns = turns
+  $('#sign-up-modal').fadeOut(500, function () {
+    $('#sign-up-modal').modal('hide')
+  })
 }
 
 const onUpdateGameSuccess = function (responseData) {

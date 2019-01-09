@@ -169,17 +169,63 @@
       <div class="bottom-buttons">
           <button id='create-game' class="btn btn-primary">Start a New Game</button>
           <button class="btn btn-primary" id='game-index' data-toggle="modal" data-target="#modalGameList">See all past games played</button>
-          <form id='show-game'>
-            <input class='show-input' type="number" name="game[id]" placeholder="Game ID">
-            <input class="btn btn-primary--crisp btn-primary" type="submit" value="Show a Past Game">
-          </form>
+
+          <div class="modal fade" id="show-past-game-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Show a Past Game</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                  <form id='show-game'>
+                    <input class='show-input' type="number" name="game[id]" placeholder="Game ID">
+                    <input class="btn btn-primary--crisp btn-primary" type="submit" id="show-past-game" value="Show a Past Game">
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="show-past-game-button">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#show-past-game-modal">
+            Show a Past Game
+            </button>
+          </div>
+
+  <div class="modal fade" id="update-game-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Game</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
           <form id='update-game'>
             <input class='update' name="game[cell][index]" type="text" value="0">
             <input class='update' name="game[cell][value]" type="text" value="x">
             <input class='update' name="game[over]" type="text" value="false">
             <input type="submit" class="btn btn-primary" value="Update Game">
           </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="update-game-button">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#update-game-modal">
+    Update Game
+    </button>
+  </div>
           <button class="btn btn-primary">Watch Game</button>
+
+
       </div>
     </div>
     </div>
