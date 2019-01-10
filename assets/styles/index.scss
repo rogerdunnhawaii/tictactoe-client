@@ -10,6 +10,11 @@ $black-color: #000;
     width: 100%;
   }
 }
+
+.change-password-button {
+  display: none;
+}
+
 .container {
   .row {
     &:nth-of-type(2) {
