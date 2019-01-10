@@ -26,8 +26,12 @@ const onCreateGame = function (event) {
 }
 
 const onViewGame = function () {
-  $('#insideGrid').show()
+  console.log('in viewgame')
+  $('.tictactoe-grid').show()
+// document.getElementsById('tictactoe-grid').show()
+  console.log('in viewgame after show')
   const id = $(this).attr('id')
+  console.log('in viewgame after id', id)
   api.viewGame(id)
     .then(ui.onViewGameSuccess)
     .catch(ui.onViewGameFailure)

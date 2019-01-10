@@ -2,6 +2,7 @@ const store = require('../store')
 const decision = require('./decision')
 
 const onGameIndexSuccess = function (responseData) {
+  $('#game-table-body').html('')
   responseData.games.forEach(games => {
     const gamesHTML = (`
       <tr>
@@ -43,6 +44,7 @@ const onCreateGameFailure = function () {
 
 const onViewGameSuccess = function (responseData) {
   store.game = responseData.game
+  console.log('store game in onViewGameSuccess', store.game)
   $('#insideGrid').show()
   $('.tictactoe-grid').show()
   for (let i = 0; i < store.game.cells.length; i++) {
