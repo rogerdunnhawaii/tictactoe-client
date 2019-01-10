@@ -95,6 +95,14 @@ $black-color: #000;
    // display: none;
 }
 
+.bottom-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  display: none;
+}
+
 .box {
   align-items: center;
   display: flex;
@@ -121,7 +129,11 @@ h1 {
 // }
 
 #insideGrid {
-  display: none;
+
+//  display: none;
+  margin-top: 40px;
+  color: #35E8CD;
+
 }
 
 .nav.btn-primary {

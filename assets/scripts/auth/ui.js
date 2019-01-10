@@ -19,6 +19,8 @@ const onCreateUserFailure = () => {
 const onSignInSuccess = (responseData) => {
   // message to user
   $('#Message').html('Successfully Signed in')
+  $('.bottom-buttons').show()
+  $('.bottom-grid').hide()
 
   //  store user data
   store.user = responseData.user
@@ -66,7 +68,6 @@ const onSignOutSuccess = (responseData) => {
   $('.sign-up-button').show()
   $('.sign-in-button').show()
   $('.sign-out-div').hide()
-  $('.bottom-grid').hide()
 }
 
 const onSignOutFailure = () => {

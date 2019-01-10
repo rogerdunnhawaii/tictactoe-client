@@ -1,6 +1,5 @@
 const store = require('../store')
 const decision = require('./decision')
-const gameEvents = require('./events')
 
 const onGameIndexSuccess = function (responseData) {
   responseData.games.forEach(games => {
@@ -19,9 +18,9 @@ const onGameIndexSuccess = function (responseData) {
 
 const onCreateGameSuccess = function (responseData) {
   $('#Message').text(`Successfully created game, It is Player X's Turn`)
-  $('.tictactoe-grid').show()
+  $('.bottom-grid').show()
   $('#insideGrid').show()
-  $('.box').on('click', gameEvents.onClick)
+  $('.tictactoe-grid').show()
   store.game = responseData.game
   store.countOfO = 0
   store.countOfX = 0
@@ -44,7 +43,6 @@ const onCreateGameFailure = function () {
 
 const onViewGameSuccess = function (responseData) {
   store.game = responseData.game
-  console.log('onViewGameSuccess', responseData)
   $('#insideGrid').show()
   $('.tictactoe-grid').show()
   for (let i = 0; i < store.game.cells.length; i++) {
@@ -65,7 +63,6 @@ const onShowGameSuccess = function (responseData) {
     $(`div[data-cell-index=${i}]`).text(store.game.cells[i])
   }
   const turns = decision.movesSoFar(store)
-  $('#Message').html('# of turns: ', turns)
   store.turns = turns
   $('#sign-up-modal').fadeOut(500, function () {
     $('#sign-up-modal').modal('hide')

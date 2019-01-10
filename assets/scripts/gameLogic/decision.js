@@ -19,14 +19,6 @@ const determineValue = function (cellId) {
   } else {
     store.lastmove = 'x'
   }
-
-  // } else {
-  //   if (store.lastmove === 'x') {
-  //     xOrO = 'o'
-  //   } else if (store.lastmove === 'o') {
-  //     xOrO = 'x'
-  //   }
-  // }
 }
 
 const movesSoFar = function (store) {
@@ -52,7 +44,7 @@ const countClicks = function () {
 const isTied = function (turns) {
   if (turns === 9) {
     store.game.over = true
-    $('#Message').empty().append('Game is Over')
+    $('#Message').empty().append('Game is Tied')
   }
 }
 
@@ -67,7 +59,6 @@ const isWinner = function (cellId, xOrO) {
     } else if (cellId === '1') {
       ++store.sumOfRow1
       ++store.sumOfCol2
-      // cell[2]
     } else if (cellId === '2') {
       store.sumOfRow1++
       store.sumOfCol3++

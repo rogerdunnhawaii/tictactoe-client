@@ -22,8 +22,6 @@ const createGame = function () {
 }
 
 const viewGame = function (id) {
-  console.log('in View Game store', store)
-  console.log('in View Game store games', store.games)
   return $.ajax({
     url: config.apiUrl + '/games/' + id,
     method: 'GET',

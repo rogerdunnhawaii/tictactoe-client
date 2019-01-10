@@ -19,7 +19,9 @@ $(() => {
   $('#create-game').on('click', gameEvents.onCreateGame)
   $('#show-game').on('submit', gameEvents.onShowGame)
   $('#update-game').on('submit', gameEvents.onUpdateGame)
-  $('.box').click(gameEvents.onClick)
+
   $('.table').on('click', '.view-game', gameEvents.onViewGame)
   $('.close').click(gameEvents.onClose)
+  $('.box').click(gameEvents.onClick)
+
 })

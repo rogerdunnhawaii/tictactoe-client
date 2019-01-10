@@ -17,7 +17,7 @@ const onClose = function () {
 
 const onCreateGame = function (event) {
   event.preventDefault()
-  store.game = null
+  store.game = {}
   store.lastmove = 'x'
   $('.box').text('')
   api.createGame()
@@ -64,8 +64,11 @@ const onClick = function () {
       const xOrO = store.lastmove
       if (xOrO === 'o') {
         $('#Message').html(`It is Player X's Turn`)
+
+        store.countOfO += 1
       } else {
         $('#Message').html(`It is Player O's Turn`)
+        store.countOfX += 1
       }
       decision.isTied(turns)
       decision.isWinner(cellId, xOrO)
