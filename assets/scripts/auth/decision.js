@@ -12,7 +12,6 @@ const alreadyHasAValue = function (store, cellId) {
 
 const determineValue = function (store) {
   const cells = store.game.cells
-  console.log(cells)
   let countOfX = 0
   let countOfO = 0
   let xOrO
@@ -23,8 +22,6 @@ const determineValue = function (store) {
       countOfO++
     }
   }
-  console.log('count of O', countOfO)
-  console.log('count of X', countOfX)
   countOfX > countOfO ? xOrO = 'o' : xOrO = 'x'
   if (cells.every(x => x === '')) {
     xOrO = 'x'
@@ -50,8 +47,6 @@ const movesSoFar = function (store) {
 }
 
 const clickBox = function (cellId, xOrO) {
-  const cells = store.game.cells
-  console.log(cells)
   store.lastmove = xOrO
   store.game.cells[cellId] = xOrO
 }
@@ -67,13 +62,11 @@ const clickWinner = function (turns) {
       sumOfO += i
     }
   }
-  console.log('sumOfO is', sumOfO)
-  console.log('sumOfX is', sumOfX)
   if (turns >= 5) {
     if ((sumOfX % 3 === 0 || sumOfO % 3 === 0) && sumOfO !== 6 && sumOfX !== 6) {
-      alert('There is a winner, please start a new game')
+      $('#Message').html('There is a winner, please start a new game')
     } else if (sumOfX + sumOfO === 36) {
-      alert('Game is Over')
+      $('#Message').html('Game is Tied')
     }
   }
 }

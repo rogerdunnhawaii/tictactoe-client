@@ -1,6 +1,5 @@
 const store = require('../store')
 const decision = require('./decision')
-const gameEvents = require('./events')
 
 const onGameIndexSuccess = function (responseData) {
   responseData.games.forEach(games => {
@@ -22,9 +21,7 @@ const onCreateGameSuccess = function (responseData) {
   $('.bottom-grid').show()
   $('#insideGrid').show()
   $('.tictactoe-grid').show()
-  // $('.box').on('click', gameEvents.onClick)
   store.game = responseData.game
-  console.log('in onCreateGameSuccess after store.game', store.game)
   store.countOfO = 0
   store.countOfX = 0
   store.sumOfRow1 = 0
@@ -46,7 +43,6 @@ const onCreateGameFailure = function () {
 
 const onViewGameSuccess = function (responseData) {
   store.game = responseData.game
-  console.log('onViewGameSuccess', responseData)
   $('#insideGrid').show()
   $('.tictactoe-grid').show()
   for (let i = 0; i < store.game.cells.length; i++) {

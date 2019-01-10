@@ -36,7 +36,6 @@ const onSignInSuccess = (responseData) => {
 
   // reset content in sign in form
   $('#sign-in').trigger('reset')
-  console.log('onSignInSuccess store', store)
 }
 
 const onSignInFailure = () => {

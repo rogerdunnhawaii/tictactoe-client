@@ -2,18 +2,26 @@ This is a game of Tic-Tac-toe
 
 You will be able to do the following:
 
-1) Create a login/username
+1) Create a login
 2) Play a game of Tic-tac-toe
-3) Be able to see how many games you played vs won
-4)
+3) Be able to see the past games you played (and possibly continue playing)
+4) Be able to sign out
 
-Pin your repository on GitHub as a Popular Repository
+Pin your repository on GitHub as a Popular Repository - check
 
-Complete the repository Description field and Website field with a meaningful sentence description of the application and link to the live URL github image
+Complete the repository Description field and Website field with a meaningful sentence description of the application and link to the live URL github image - check
 
-List technologies used: HTML, CSS, JavaScript
+List technologies used: HTML, CSS, JavaScript, AJAX, JQuery - check
 
 Document your planning and tell a story about your development process and problem-solving strategy.
+1) wireframes
+2) user stories
+3) complete the Authorization steps
+4) complete the Games steps
+5) complete the Game logic
+6) figure out how to update/patch to api
+7) figure out how to hide/show things
+8) figure out how to make boxes clickable/non-clickable
 
 List unsolved problems which would be fixed in future iterations.
 1) unable to view old games from Get all Games List
@@ -23,117 +31,41 @@ List unsolved problems which would be fixed in future iterations.
 Link to wireframes and user stories.
 https://git.generalassemb.ly/rogerdunnGA/game-project-scope-study/blob/response/study.md
 
+Technical Specifications
+ Use a custom game engine written by you. - check
+ Be a single-page application, no browser refresh. - check
+ Render a game board in the browser. - check
+ Switch turns between X and O (or whichever markers you select). Tip: Assume player X is the first player to start the game. - check
+ Visually display which side won if a player gets three in a row or show a draw if neither wins. - check
+ Support playing multiple games, one at a time. - not sure
+ Use jQuery for DOM manipulation and event handling.  - check
+ Use AJAX for interacting with a provided API. - check
+API Specifications
+ Create new games on the server. (CREATE)  - check
+ Update a game by storing new moves. (UPDATE)  - check
+ Visually display the results of retrieving game statistics, such as total games won by a user. (READ)  - check
+ Give feedback to the user after each action.  - check
+Auth Specifications
+ Signup with email, password, and password confirmation.  - check
+ Login with email and password. - check
+ Logout when logged in. - check
+ Change password with current and new password. - check
+ Signup and Signin must only be available to not signed in users. - check
+ Logout and Change password must only be available to signed in users. - check
+ Give feedback to the user after each action's success or failure. - check
+ All forms must clear after submit success or failure - check
+DO NOT!!
+Your app must not:
 
-<!-- [![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
-
-# browser-template
-
-A template for starting front-end projects. Webpack for `require` system, build
-pipeline, and development server. Boostrap and Handlebars.js included. No
-front-end frameworks included.
-
-## Installation
-
-1. [Download](../../archive/master.zip) this template.
-1. Move to the `wdi/projects` directory, then unzip the template directory with
-    `unzip /Users/<user-name>/Downloads/browser-template-master.zip`.
-1. Rename the template directory from `browser-template-master` to
-    `<project-name>-client`.
-1. Empty [`README.md`](README.md) and fill with your own content.
-1. Replace all instances of `tictactoe-client` with the name of
-    your project.
-1. Move into the new project and `git init`.
-1. Add all of the files in your project with the command `git add --all`.
-      - **Note: This is the only time you should run this command!**
-1. Commit all of your files with the command `git commit`.
-      - Your commit title should read `Initial commit`.
-1. Install dependencies with `npm install`.
-1. Create a new repository on [github.com](https://github.com),
-    _not GitHub Enterprise_.
-1. Name the new repository with the same name used on Step 3.
-1. Follow the instructions on your new repository's setup page. For details on
-   how to push to Github, refer to the section on Github entitled "…or push an existing
-   repository from the command line." Further documentation can be found [here](https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/).
-
-## Structure
-
-Developers should store JavaScript files in [`assets/scripts`](assets/scripts).
-The "manifest" or entry-point is
-[`assets/scripts/app.js`](assets/scripts/app.js). In general, only
-application initialization goes in this file. It's normal for developers to
-start putting all code in this file, but encourage them to break out different
-responsibilities and use the `require` syntax put references where they're
-needed.
-
-Developers should set `apiUrls.production` and `apiUrls.development` in
-[`assets/scripts/config.js`](assets/scripts/config.js).  With
-`apiUrls` set, developers may rely on `apiUrl` as the base for API
-URLs.
-
-Developers should store styles in [`assets/styles`](assets/styles) and load them
-from [`assets/styles/index.scss`](assets/styles/index.scss). Bootstrap version 3 is
-included in this template.
-
-Developers should use [getFormFields](get-form-fields.md) to retrieve form data
-to send to an API.
-
-To deploy a browser-template based SPA, run `grunt deploy`.
-
-## Adding Images
-
-To add images to your project, you must store them in the `public` directory.
-To use the image in HTML or CSS, write the path to the image like this:
-
-```html
-<img src="public/cat.jpg">
-```
-or
-```css
-#my-cool-div {
-  background-image: url('public/cat.jpg')
-}
-```
-
-Note that there's no `./` or `/` in front of `public/filename.jpg`.
-
-## Adding Fonts
-
-To add custom fonts to your app, you can either use a CDN like Google Fonts, or
-you can download the fonts and save them in the `public` directory. If you use
-the former method, follow the directions on the website providing the fonts.
-
-For local fonts, put the files in `public`, and then import and use them in a
-`.scss` file like this:
-
-```scss
-@font-face {
-  font-family: 'Nature Beauty';
-  src: url('public/Nature-Beauty.ttf') format('truetype');
-}
-
-.element-with-custom-font {
-  font-family: 'Nature Beauty';
-}
-```
-
-## Tasks
-
-Developers should run these often!
-
-- `grunt nag` or just `grunt`: runs code quality analysis tools on your code
-    and complains
-- `grunt make-standard`: reformats all your code in the JavaScript Standard Style
-- `grunt <server|serve|s>`: generates bundles, watches, and livereloads
-- `grunt build`: place bundled styles and scripts where `index.html` can find
-    them
-
-## Additional Resources
-
-- [Modern Javascript Explained for Dinosaurs](https://medium.com/@peterxjang/modern-javascript-explained-for-dinosaurs-f695e9747b70)
-- [Making Sense of Front End Build Tools](https://medium.freecodecamp.org/making-sense-of-front-end-build-tools-3a1b3a87043b)
-
-## [License](LICENSE)
-
-1. All content is licensed under a CC­BY­NC­SA 4.0 license.
-1. All software code is licensed under GNU GPLv3. For commercial use or
-    alternative licensing, please contact legal@ga.co. -->
+ Delete your repository at any time or start over. - check
+ Rely on refreshing the page for any functionality. - check
+ Have any user-facing bugs. - check
+ Display non-functional buttons, nor buttons that do not successfully complete a task. - check
+ Show actions at inappropriate times (example: sign out button when not signed in). - check
+ Forms not clearing at appropriate times (example: sign up form not clearing after success). - check
+ Allow the same game to be played after a player has won or tied.-check
+ Allow players to move in the same square more than once. -check
+ Change players when an invalid move is made.
+ Use alerts for anything.  - check
+ Display errors or warnings in the console. - check
+ Display debugging messages in the console. - check

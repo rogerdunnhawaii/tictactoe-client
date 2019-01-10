@@ -18,7 +18,6 @@ const onClose = function () {
 const onCreateGame = function (event) {
   event.preventDefault()
   store.game = {}
-  // console.log('after store.game', store.game)
   store.lastmove = 'x'
   $('.box').text('')
   api.createGame()
@@ -29,7 +28,6 @@ const onCreateGame = function (event) {
 const onViewGame = function () {
   $('#insideGrid').show()
   const id = $(this).attr('id')
-  console.log('id is: ', id)
   api.viewGame(id)
     .then(ui.onViewGameSuccess)
     .catch(ui.onViewGameFailure)
@@ -52,7 +50,6 @@ const onUpdateGame = function (event) {
 }
 
 const onClick = function () {
-  console.log('click')
   if (store.game.over === false) {
     const turns = decision.countClicks()
     const cellId = $(this).attr('data-cell-index')
@@ -67,8 +64,10 @@ const onClick = function () {
       const xOrO = store.lastmove
       if (xOrO === 'o') {
         $('#Message').html(`It is Player X's Turn`)
+        store.countOfO += 1
       } else {
         $('#Message').html(`It is Player O's Turn`)
+        store.countOfX += 1
       }
       decision.isTied(turns)
       decision.isWinner(cellId, xOrO)
@@ -76,7 +75,6 @@ const onClick = function () {
         .then(ui.onUpdateGameSuccess)
         .catch(ui.onUpdateGameFailure)
       decision.determineValue()
-      console.log('store in onClick', store)
     }
   }
 }
