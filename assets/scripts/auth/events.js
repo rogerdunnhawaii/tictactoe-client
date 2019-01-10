@@ -12,6 +12,10 @@ const onCreateUser = function (event) {
     .catch(ui.onCreateUserFailure)
 }
 
+const onClose = function () {
+  $('form').trigger('reset')
+}
+
 const onSignIn = function (event) {
   event.preventDefault()
   const data = getFormFields(event.target)
@@ -43,5 +47,6 @@ module.exports = {
   onCreateUser,
   onSignIn,
   onSignOut,
-  onChangePassword
+  onChangePassword,
+  onClose
 }

@@ -64,6 +64,7 @@ const onClick = function () {
       const xOrO = store.lastmove
       if (xOrO === 'o') {
         $('#Message').html(`It is Player X's Turn`)
+
         store.countOfO += 1
       } else {
         $('#Message').html(`It is Player O's Turn`)
