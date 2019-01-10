@@ -29,7 +29,15 @@ List unsolved problems which would be fixed in future iterations.
 3) unable to login via fb or google
 
 Link to wireframes and user stories.
-https://git.generalassemb.ly/rogerdunnGA/game-project-scope-study/blob/response/study.md
+
+Wireframes: https://drive.google.com/open?id=1IErditU_ZYstidhZvdSClMKqOFDm9_xC
+
+User Stories:
+4-8 user stories for your game project (using the As a < type of user >, I want < some goal > so that < some reason >. format from the readings).
+As a player, I want to keep track of my games using my login
+As a player, I want to choose a username to protect my email address and/or phone number
+As a player, I want to be able to play as many games as I want
+As a player, I want to tally the # of wins I have vs others
 
 Technical Specifications
  Use a custom game engine written by you. - check
