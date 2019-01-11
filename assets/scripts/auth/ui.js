@@ -21,6 +21,7 @@ const onSignInSuccess = (responseData) => {
   $('#Message').html('Successfully Signed in')
   $('.bottom-buttons').show()
   $('.bottom-grid').hide()
+
   //  store user data
   store.user = responseData.user
 
@@ -36,6 +37,7 @@ const onSignInSuccess = (responseData) => {
 
   // reset content in sign in form
   $('#sign-in').trigger('reset')
+  $('.bottom-grid').show()
 }
 
 const onSignInFailure = () => {
@@ -68,6 +70,7 @@ const onSignOutSuccess = (responseData) => {
   $('.sign-out-div').hide()
   $('#tictactoe-grid').hide()
 //  $('.tictactoe-grid').hide()
+
 }
 
 const onSignOutFailure = () => {

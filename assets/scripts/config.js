@@ -2,11 +2,11 @@
 
 let apiUrl
 const apiUrls = {
-  production: 'https://tic-tac-toe-wdi.herokuapp.com/',
-  development: 'https://aqueous-atoll-85096.herokuapp.com'
+  development: 'https://tic-tac-toe-wdi.herokuapp.com/',
+  production: 'https://aqueous-atoll-85096.herokuapp.com'
 }
 
-if (window.location.hostname === 'localhost') {
+if (window.location.hostname === 'https://github.com/rogerdunnhawaii/tictactoe-client/blob/master') {
   apiUrl = apiUrls.development
 } else {
   apiUrl = apiUrls.production
