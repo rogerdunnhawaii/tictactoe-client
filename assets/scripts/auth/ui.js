@@ -31,6 +31,7 @@ const onSignInSuccess = (responseData) => {
   })
   // buttons
   $('.sign-out-div').show()
+  $('#sign-out').show()
   $('.change-password-button').show()
   $('.sign-in-button').hide()
   $('.sign-up-button').hide()
