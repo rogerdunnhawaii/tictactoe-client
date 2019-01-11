@@ -20,6 +20,7 @@ const onCreateGame = function (event) {
   store.game = {}
   store.lastmove = 'x'
   $('.box').text('')
+  $('.box').on('click')
   api.createGame()
     .then(ui.onCreateGameSuccess)
     .catch(ui.onCreateGameFailure)
@@ -28,10 +29,12 @@ const onCreateGame = function (event) {
 const onViewGame = function () {
   console.log('in viewgame')
   $('.tictactoe-grid').show()
-// document.getElementsById('tictactoe-grid').show()
+  // document.getElementsById('tictactoe-grid').show()
   console.log('in viewgame after show')
   const id = $(this).attr('id')
   console.log('in viewgame after id', id)
+  $('#tictactoe-grid').show()
+  $('#insideGrid').show()
   api.viewGame(id)
     .then(ui.onViewGameSuccess)
     .catch(ui.onViewGameFailure)

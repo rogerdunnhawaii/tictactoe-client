@@ -29,7 +29,7 @@ const onSignInSuccess = (responseData) => {
     $('#sign-in-modal').modal('hide')
   })
   // buttons
-   $('.sign-out-div').show()
+  $('.sign-out-div').show()
   $('.change-password-button').show()
   $('.sign-in-button').hide()
   $('.sign-up-button').hide()
@@ -66,6 +66,7 @@ const onSignOutSuccess = (responseData) => {
   $('.sign-up-button').show()
   $('.sign-in-button').show()
   $('.sign-out-div').hide()
+  $('#tictactoe-grid').hide()
 //  $('.tictactoe-grid').hide()
 }
 
