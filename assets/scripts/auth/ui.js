@@ -68,6 +68,9 @@ const onSignOutSuccess = (responseData) => {
   $('.sign-up-button').show()
   $('.sign-in-button').show()
   $('.sign-out-div').hide()
+  $('#tictactoe-grid').hide()
+//  $('.tictactoe-grid').hide()
+
 }
 
 const onSignOutFailure = () => {

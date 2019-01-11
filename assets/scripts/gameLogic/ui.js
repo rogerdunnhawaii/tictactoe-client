@@ -2,17 +2,22 @@ const store = require('../store')
 const decision = require('./decision')
 
 const onGameIndexSuccess = function (responseData) {
+  $('#game-table-body').html('')
+  $('#tictactoe-grid').show()
   responseData.games.forEach(games => {
-    const gamesHTML = (`
+    const gamesHTML =
+      (`
       <tr>
         <td><button type="button" id='${games.id}' class="view-game btn-line clickable">View</button>
         <td> ${games.id}</td>
         <td> ${games.cells}</td>
-        <td> ${games.over}</td>
+          <td> ${games.over}</td>
         <td> ${games.player_x.email}</td>
       </tr>
      `)
-    $('#game-table-body').append(gamesHTML)
+    if (games.over === true) {
+      $('#game-table-body').append(gamesHTML)
+    }
   })
 }
 
@@ -20,7 +25,7 @@ const onCreateGameSuccess = function (responseData) {
   $('#Message').text(`Successfully created game, It is Player X's Turn`)
   $('.bottom-grid').show()
   $('#insideGrid').show()
-  $('.tictactoe-grid').show()
+  $('#tictactoe-grid').show()
   store.game = responseData.game
   store.countOfO = 0
   store.countOfX = 0
@@ -43,8 +48,10 @@ const onCreateGameFailure = function () {
 
 const onViewGameSuccess = function (responseData) {
   store.game = responseData.game
+  console.log('store game in onViewGameSuccess', store.game)
+  $('.bottom-grid').show()
   $('#insideGrid').show()
-  $('.tictactoe-grid').show()
+  $('#tictactoe-grid').show()
   for (let i = 0; i < store.game.cells.length; i++) {
     $(`div[data-cell-index=${i}]`).text(store.game.cells[i])
   }
