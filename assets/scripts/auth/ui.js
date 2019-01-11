@@ -19,7 +19,7 @@ const onCreateUserFailure = () => {
 const onSignInSuccess = (responseData) => {
   // message to user
   $('#Message').html('Successfully Signed in')
-  $('.bottom-buttons').show()
+  $('.bottom-buttons').css('display', 'flex')
   $('.bottom-grid').hide()
 
   //  store user data
