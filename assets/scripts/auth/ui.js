@@ -39,6 +39,8 @@ const onSignInSuccess = (responseData) => {
   // reset content in sign in form
   $('#sign-in').trigger('reset')
   $('.bottom-grid').show()
+  $('#create-game').show()
+  $('#game-index').show()
 }
 
 const onSignInFailure = () => {
@@ -69,6 +71,8 @@ const onSignOutSuccess = (responseData) => {
   $('.sign-up-button').show()
   $('.sign-in-button').show()
   $('.sign-out-div').hide()
+  $('#create-game').hide()
+  $('#game-index').hide()
   $('#tictactoe-grid').hide()
 //  $('.tictactoe-grid').hide()
 

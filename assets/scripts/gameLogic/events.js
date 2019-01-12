@@ -32,7 +32,7 @@ const onViewGame = function () {
   // document.getElementsById('tictactoe-grid').show()
   console.log('in viewgame after show')
   const id = $(this).attr('id')
-  console.log('in viewgame after id', id)
+  $('#Message').html('You are viewing Game ID#: ' + id)
   $('#tictactoe-grid').show()
   $('#insideGrid').show()
   api.viewGame(id)
