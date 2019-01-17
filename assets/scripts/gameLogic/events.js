@@ -18,6 +18,8 @@ const onClose = function () {
 const onCreateGame = function (event) {
   event.preventDefault()
   store.game = {}
+  store.playerXwins = 0
+  store.player0wins = 0
   store.lastmove = 'x'
   $('.box').text('')
   $('.box').on('click')

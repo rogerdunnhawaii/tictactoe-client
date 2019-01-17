@@ -6,6 +6,7 @@ const onCreateUserSuccess = (response) => {
     $('#sign-up-modal').modal('hide')
   })
   $('#create-user').trigger('reset')
+  console.log('store in onCreateUserSuccess: ', store)
 }
 
 const onCreateUserFailure = () => {

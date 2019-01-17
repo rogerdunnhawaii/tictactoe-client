@@ -3,6 +3,7 @@ const decision = require('./decision')
 
 const onGameIndexSuccess = function (responseData) {
   $('#game-table-body').html('')
+  $('#game-list-message').html(`Player X has won ${store.playerXwins} games \n Player O has won ${store.playerOwins} games`)
   $('#tictactoe-grid').show()
   responseData.games.forEach(games => {
     const gamesHTML =
