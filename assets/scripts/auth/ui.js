@@ -75,7 +75,6 @@ const onSignOutSuccess = (responseData) => {
   $('#game-index').hide()
   $('#tictactoe-grid').hide()
 //  $('.tictactoe-grid').hide()
-
 }
 
 const onSignOutFailure = () => {

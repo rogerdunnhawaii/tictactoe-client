@@ -7,8 +7,10 @@
 // require('./example')
 const events = require('./auth/events.js')
 const gameEvents = require('./gameLogic/events.js')
+const store = require('./store')
 
 $(() => {
+  store.guest = false
   $('#create-user').on('submit', events.onCreateUser)
   $('#sign-in').on('submit', events.onSignIn)
   $('#sign-out').on('click', events.onSignOut)
@@ -24,4 +26,5 @@ $(() => {
   $('.close').click(gameEvents.onClose)
   $('.box').click(gameEvents.onClick)
 
+  $('#guest-button').on('click', gameEvents.onGuestClick)
 })

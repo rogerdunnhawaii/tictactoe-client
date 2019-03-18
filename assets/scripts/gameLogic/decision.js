@@ -1,15 +1,30 @@
 const store = require('../store')
 
-const alreadyHasAValue = function (store, cellId) {
-  const gameBoard = store.game.cells
-  if (gameBoard === 'undefined') {
-    $('#Message').text('Please sign up or sign in')
-  }
-  if (gameBoard[cellId] === 'x' || gameBoard[cellId] === 'o') {
-    $('#Message').text('Choose a different cell')
-    return true
+const alreadyHasAValue = function (cellId) {
+  // if you signed in
+  if (store.guest === false) {
+    const gameBoard = store.game.cells
+    if (gameBoard === 'undefined') {
+      $('#Message').text('Please sign up or sign in')
+    }
+    if (gameBoard[cellId] === 'x' || gameBoard[cellId] === 'o') {
+      $('#Message').text('Choose a different cell')
+      return true
+    } else {
+      return false
+    }
   } else {
-    return false
+    // if you are playing as a guest
+    const gameBoard = store.gameBoard
+    console.log('gameBoard in alreadyHasAValue:', gameBoard)
+    console.log('cellId in alreadyHasAValue:', cellId)
+    console.log('gameBoard[cellId]', gameBoard[cellId])
+    if (gameBoard[cellId] === 'x' || gameBoard[cellId] === 'o') {
+      console.log('choose a different cell')
+      return true
+    } else {
+      return false
+    }
   }
 }
 
@@ -48,7 +63,9 @@ const isTied = function (turns) {
   }
 }
 
-const isWinner = function (cellId, xOrO) {
+const sumOfXandO = function (cellId, xOrO) {
+  console.log('cellId in sumOfXandO', typeof cellId)
+  console.log('xOrx in sumOfXandO', typeof xOrO)
   if (xOrO === 'x') {
     // cell[0]
     if (cellId === '0') {
@@ -57,8 +74,8 @@ const isWinner = function (cellId, xOrO) {
       store.sumOfDiag += 1
     // cell[1]
     } else if (cellId === '1') {
-      ++store.sumOfRow1
-      ++store.sumOfCol2
+      store.sumOfRow1++
+      store.sumOfCol2++
     } else if (cellId === '2') {
       store.sumOfRow1++
       store.sumOfCol3++
@@ -86,7 +103,7 @@ const isWinner = function (cellId, xOrO) {
       store.sumOfCol3++
       store.sumOfDiag++
     }
-  } else if (xOrO === 'o') {
+  } else {
     if (cellId === '0') {
       store.sumOfRow1--
       store.sumOfCol1--
@@ -124,7 +141,9 @@ const isWinner = function (cellId, xOrO) {
       store.sumOfDiag--
     }
   }
+}
 
+const isWinner = function (cellId, xOrO) {
   if (store.sumOfRow1 === 3 || store.sumOfRow2 === 3 || store.sumOfRow3 === 3 || store.sumOfCol1 === 3 || store.sumOfCol2 === 3 || store.sumOfCol3 === 3 || store.sumOfDiag === 3 || store.sumOfAntiDiag === 3) {
     $('#Message').html('Player X is the Winner')
     store.game.over = true
@@ -141,5 +160,6 @@ module.exports = {
   movesSoFar,
   isWinner,
   isTied,
-  countClicks
+  countClicks,
+  sumOfXandO
 }
