@@ -15,23 +15,24 @@ const onClose = function () {
   store.games = 'null'
 }
 
+
 const onGuestClick = () => {
   $('.bottom-grid').show()
   $('#create-game').show()
   $('#game-index').show()
   $('#tictactoe-grid').show()
-  $('#Message').html('Successfully Playing as a Guest against AI')
+  // $('#Message').html('Successfully Playing as a Guest against AI')
   store.guest = true
-  store.gameBoard = ['', '', '', '', '', '', '', '', '']
-  $('.box').text('')
-  store.sumOfRow1 = 0
-  store.sumOfRow2 = 0
-  store.sumOfRow3 = 0
-  store.sumOfCol1 = 0
-  store.sumOfCol2 = 0
-  store.sumOfCol3 = 0
-  store.sumOfDiag = 0
-  store.sumOfAntiDiag = 0
+  // store.gameBoard = ['', '', '', '', '', '', '', '', '']
+  // $('.box').text('')
+  // store.sumOfRow1 = 0
+  // store.sumOfRow2 = 0
+  // store.sumOfRow3 = 0
+  // store.sumOfCol1 = 0
+  // store.sumOfCol2 = 0
+  // store.sumOfCol3 = 0
+  // store.sumOfDiag = 0
+  // store.sumOfAntiDiag = 0
 }
 
 const onCreateGame = function (event) {
@@ -40,6 +41,8 @@ const onCreateGame = function (event) {
   store.lastmove = 'x'
   $('.box').text('')
   $('.box').on('click')
+
+  // comment out?
   api.createGame()
     .then(ui.onCreateGameSuccess)
     .catch(ui.onCreateGameFailure)
@@ -49,7 +52,7 @@ const onViewGame = function () {
   console.log('in viewgame')
   $('.tictactoe-grid').show()
   // document.getElementsById('tictactoe-grid').show()
-  console.log('in viewgame after show')
+  // console.log('in viewgame after show')
   const id = $(this).attr('id')
   $('#Message').html('You are viewing Game ID#: ' + id)
   $('#tictactoe-grid').show()
@@ -73,6 +76,34 @@ const onUpdateGame = function (event) {
   api.updateGame(data)
     .then(ui.onUpdateGameSuccess)
     .catch(ui.onUpdateGameFailure)
+}
+
+const convertNormalIndexToArrayIndex = function(normalIndex) {
+
+  let i = Math.floor(normalIndex / 3);
+  let j = normalIndex % 3;
+
+  return [i,j];
+}
+
+const guestOnClick = function(index, arrs) {
+
+  let [arrIndexI, arrIndexJ] = convertNormalIndexToArrayIndex(index);
+  arrs[arrIndexI][arrIndexJ] = 'X';
+  renderArrs(arrs);
+}
+
+
+const renderArrs = function(arrs) {
+
+  let currentCellIndex = 0;
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      $(`div[data-cell-index=${currentCellIndex}]`).text(arrs[i][j]);
+      currentCellIndex++;
+    }
+  }
+
 }
 
 const onClick = function () {
@@ -107,23 +138,35 @@ const onClick = function () {
       }
     }
   } else {
-    // if you are a guest playing AI
-    console.log('store as guest', store)
-    const cellId = $(this).attr('data-cell-index')
-    console.log('cell id is', cellId)
-    store.cellId = cellId
-    console.log('store.cellId on Player X turn is', store.cellId)
-    // if (decision.alreadyHasAValue(cellId)) {
-    //   $('#Message').html('choose a different cell')
-    // } else {
-    // if (store.game.cells.every(x => x === '')) {
-    //   store.lastmove = 'x'
-    $(this).text(store.lastmove)
-    store.gameBoard[cellId] = store.lastmove
-    console.log('gameboard if cell is open', store.gameBoard)
-    decision.sumOfXandO(cellId, 'x')
-    console.log('store guest playing AI after sumOfXandO', store)
-    AIturn()
+    // console.log('clicked');
+
+    let arrs = [
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""]
+    ];
+
+    let index = $(this).attr("data-cell-index");
+    // console.log(index);
+    guestOnClick(index, arrs);
+
+    // // if you are a guest playing AI
+    // console.log('store as guest', store)
+    // const cellId = $(this).attr('data-cell-index')
+    // console.log('cell id is', cellId)
+    // store.cellId = cellId
+    // console.log('store.cellId on Player X turn is', store.cellId)
+    // // if (decision.alreadyHasAValue(cellId)) {
+    // //   $('#Message').html('choose a different cell')
+    // // } else {
+    // // if (store.game.cells.every(x => x === '')) {
+    // //   store.lastmove = 'x'
+    // $(this).text(store.lastmove)
+    // store.gameBoard[cellId] = store.lastmove
+    // console.log('gameboard if cell is open', store.gameBoard)
+    // decision.sumOfXandO(cellId, 'x')
+    // console.log('store guest playing AI after sumOfXandO', store)
+    // AIturn()
   }
   // const xOrO = store.lastmove
   // if (xOrO === 'o') {
@@ -135,6 +178,8 @@ const onClick = function () {
   // }
   // decision.isWinner(cellId, xOrO)
 }
+
+
 
 const generateRandomMiddleNumber = () => {
   const middleArray = [1, 3, 5, 7]
@@ -298,5 +343,6 @@ module.exports = {
   onClick,
   onViewGame,
   onClose,
-  onGuestClick
+  onGuestClick,
+  renderArrs
 }

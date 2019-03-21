@@ -27,4 +27,15 @@ $(() => {
   $('.box').click(gameEvents.onClick)
 
   $('#guest-button').on('click', gameEvents.onGuestClick)
+
+  let arrs = [
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""]
+  ];
+
+  // for debugging
+  gameEvents.onGuestClick(arrs);
+  // gameEvents.updateUI(arrs);
+
 })
