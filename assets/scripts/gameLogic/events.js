@@ -4,6 +4,13 @@ const decision = require('./decision')
 const getFormFields = require('../../../lib/get-form-fields')
 const store = require('../store')
 
+
+let arrs = [
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""]
+];
+
 const onGameIndex = function (event) {
   event.preventDefault()
   api.gameIndex()
@@ -106,6 +113,7 @@ const renderArrs = function(arrs) {
 
 }
 
+
 const onClick = function () {
   // if you signed in
   if (store.guest === false) {
@@ -140,11 +148,6 @@ const onClick = function () {
   } else {
     // console.log('clicked');
 
-    let arrs = [
-      ["", "", ""],
-      ["", "", ""],
-      ["", "", ""]
-    ];
 
     let index = $(this).attr("data-cell-index");
     // console.log(index);
