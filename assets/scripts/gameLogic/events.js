@@ -4,12 +4,11 @@ const decision = require('./decision')
 const getFormFields = require('../../../lib/get-form-fields')
 const store = require('../store')
 
-
-let arrs = [
-  ["", "", ""],
-  ["", "", ""],
-  ["", "", ""]
-];
+const arrs = [
+  ['', '', ''],
+  ['', '', ''],
+  ['', '', '']
+]
 
 const onGameIndex = function (event) {
   event.preventDefault()
@@ -22,7 +21,6 @@ const onClose = function () {
   store.games = 'null'
 }
 
-
 const onGuestClick = () => {
   $('.bottom-grid').show()
   $('#create-game').show()
@@ -30,16 +28,24 @@ const onGuestClick = () => {
   $('#tictactoe-grid').show()
   // $('#Message').html('Successfully Playing as a Guest against AI')
   store.guest = true
-  // store.gameBoard = ['', '', '', '', '', '', '', '', '']
-  // $('.box').text('')
-  // store.sumOfRow1 = 0
-  // store.sumOfRow2 = 0
-  // store.sumOfRow3 = 0
-  // store.sumOfCol1 = 0
-  // store.sumOfCol2 = 0
-  // store.sumOfCol3 = 0
-  // store.sumOfDiag = 0
-  // store.sumOfAntiDiag = 0
+  store.gameBoard = ['', '', '', '', '', '', '', '', '']
+  $('.box').text('')
+  store.sumOfRow1 = 0
+  store.sumOfRow2 = 0
+  store.sumOfRow3 = 0
+  store.sumOfCol1 = 0
+  store.sumOfCol2 = 0
+  store.sumOfCol3 = 0
+  store.sumOfDiag = 0
+  store.sumOfAntiDiag = 0
+  store.row1Complete = false
+  store.row2Complete = false
+  store.row3Complete = false
+  store.col1Complete = false
+  store.col2Complete = false
+  store.col3Complete = false
+  store.diagComplete = false
+  store.antiDiagComplete = false
 }
 
 const onCreateGame = function (event) {
@@ -85,34 +91,28 @@ const onUpdateGame = function (event) {
     .catch(ui.onUpdateGameFailure)
 }
 
-const convertNormalIndexToArrayIndex = function(normalIndex) {
+const convertNormalIndexToArrayIndex = function (normalIndex) {
+  const i = Math.floor(normalIndex / 3)
+  const j = normalIndex % 3
 
-  let i = Math.floor(normalIndex / 3);
-  let j = normalIndex % 3;
-
-  return [i,j];
+  return [i, j]
 }
 
-const guestOnClick = function(index, arrs) {
-
-  let [arrIndexI, arrIndexJ] = convertNormalIndexToArrayIndex(index);
-  arrs[arrIndexI][arrIndexJ] = 'X';
-  renderArrs(arrs);
+const guestOnClick = function (index, arrs) {
+  const [arrIndexI, arrIndexJ] = convertNormalIndexToArrayIndex(index)
+  arrs[arrIndexI][arrIndexJ] = 'X'
+  renderArrs(arrs)
 }
 
-
-const renderArrs = function(arrs) {
-
-  let currentCellIndex = 0;
+const renderArrs = function (arrs) {
+  let currentCellIndex = 0
   for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-      $(`div[data-cell-index=${currentCellIndex}]`).text(arrs[i][j]);
-      currentCellIndex++;
+      $(`div[data-cell-index=${currentCellIndex}]`).text(arrs[i][j])
+      currentCellIndex++
     }
   }
-
 }
-
 
 const onClick = function () {
   // if you signed in
@@ -147,11 +147,9 @@ const onClick = function () {
     }
   } else {
     // console.log('clicked');
-
-
-    let index = $(this).attr("data-cell-index");
+    const index = $(this).attr('data-cell-index')
     // console.log(index);
-    guestOnClick(index, arrs);
+    guestOnClick(index, arrs)
 
     // // if you are a guest playing AI
     // console.log('store as guest', store)
@@ -182,8 +180,6 @@ const onClick = function () {
   // decision.isWinner(cellId, xOrO)
 }
 
-
-
 const generateRandomMiddleNumber = () => {
   const middleArray = [1, 3, 5, 7]
   const randomMiddleEdge = middleArray[Math.floor(Math.random() * middleArray.length)]
@@ -198,10 +194,11 @@ const generateRandomCornerNumber = () => {
 
 const AIturn = function () {
   console.log('it is now AI turn')
-  console.log('store on antiDiag', store.sumOfAntiDiag)
+  // check to see if there is an open cell
+
   // IF THERE IS TWO O IN SAME ROW, FILL THIRD CELL
   if (store.sumOfRow1 === 2 || store.sumOfRow2 === 2 || store.sumOfRow3 === 2 || store.sumOfCol1 === 2 || store.sumOfCol2 === 2 || store.sumOfCol3 === 2 || store.sumOfDiag === 2 || store.sumOfAntiDiag === 2) {
-    if (store.sumOfRow1 === 2) {
+    if (store.sumOfRow1 === 2 && store.row1Complete === false) {
       if (store.gameBoard[0] === '') {
         store.gameBoard[0] = 'o'
         $(`div[data-cell-index='0']`).text('o')
@@ -212,7 +209,8 @@ const AIturn = function () {
         store.gameBoard[2] = 'o'
         $(`div[data-cell-index='2']`).text('o')
       }
-    } else if (store.sumOfRow2 === 2) {
+      store.row1Complete = true
+    } else if (store.sumOfRow2 === 2 && store.row2Complete === false) {
       if (store.gameBoard[3] === '') {
         store.gameBoard[3] = 'o'
         $(`div[data-cell-index='3']`).text('o')
@@ -223,7 +221,8 @@ const AIturn = function () {
         store.gameBoard[5] = 'o'
         $(`div[data-cell-index='5']`).text('o')
       }
-    } else if (store.sumOfRow3 === 2) {
+      store.row2Complete = true
+    } else if (store.sumOfRow3 === 2 && store.row3Complete === false) {
       if (store.gameBoard[6] === '') {
         store.gameBoard[6] = 'o'
         $(`div[data-cell-index='6']`).text('o')
@@ -234,7 +233,8 @@ const AIturn = function () {
         store.gameBoard[8] = 'o'
         $(`div[data-cell-index='8']`).text('o')
       }
-    } else if (store.sumOfCol1 === 2) {
+      store.row3Complete = true
+    } else if (store.sumOfCol1 === 2 && store.col1Complete === false) {
       if (store.gameBoard[0] === '') {
         store.gameBoard[0] = 'o'
         $(`div[data-cell-index='0']`).text('o')
@@ -245,7 +245,8 @@ const AIturn = function () {
         store.gameBoard[6] = 'o'
         $(`div[data-cell-index='6']`).text('o')
       }
-    } else if (store.sumOfCol2 === 2) {
+      store.col1Complete = true
+    } else if (store.sumOfCol2 === 2 && store.col2Complete === false) {
       if (store.gameBoard[1] === '') {
         store.gameBoard[1] = 'o'
         $(`div[data-cell-index='1']`).text('o')
@@ -256,7 +257,8 @@ const AIturn = function () {
         store.gameBoard[7] = 'o'
         $(`div[data-cell-index='7']`).text('o')
       }
-    } else if (store.sumOfCol3 === 2) {
+      store.col2Complete = true
+    } else if (store.sumOfCol3 === 2 && store.col3Complete === false) {
       if (store.gameBoard[2] === '') {
         store.gameBoard[2] = 'o'
         $(`div[data-cell-index='2']`).text('o')
@@ -267,7 +269,8 @@ const AIturn = function () {
         store.gameBoard[8] = 'o'
         $(`div[data-cell-index='8']`).text('o')
       }
-    } else if (store.sumOfDiag === 2) {
+      store.col3Complete = true
+    } else if (store.sumOfDiag === 2 && store.diagComplete === false) {
       if (store.gameBoard[0] === '') {
         store.gameBoard[0] = 'o'
         $(`div[data-cell-index='0']`).text('o')
@@ -289,7 +292,8 @@ const AIturn = function () {
         $(`div[data-cell-index='${randomCorner}']`).text('o')
         store.cellId = randomCorner
       }
-    } else if (store.sumOfAntiDiag === 2) {
+      store.diagComplete = true
+    } else if (store.sumOfAntiDiag === 2 && store.antiDiagComplete === false) {
       if (store.gameBoard[2] === '') {
         store.gameBoard[2] = 'o'
         $(`div[data-cell-index='2']`).text('o')
@@ -299,8 +303,20 @@ const AIturn = function () {
       } else if (store.gameBoard[6] === '') {
         store.gameBoard[6] = 'o'
         $(`div[data-cell-index='6']`).text('o')
+      } else if (store.gameBoard[2] !== '' && store.gameBoard[4] !== '' && store.gameBoard[6] !== '') {
+        const cornerArray = [0, 8]
+        let randomCorner = cornerArray[Math.floor(Math.random() * cornerArray.length)]
+        console.log('randomCorner', randomCorner)
+        while (store.gameBoard[randomCorner] !== '') {
+          randomCorner = generateRandomCornerNumber()
+          return randomCorner
+        }
+        store.gameBoard[randomCorner] = 'o'
+        $(`div[data-cell-index='${randomCorner}']`).text('o')
+        store.cellId = randomCorner
       }
     }
+    store.antiDiagComplete = true
   } else {
     if (store.gameBoard[4] === '') {
       store.gameBoard[4] = 'o'
@@ -330,6 +346,14 @@ const AIturn = function () {
       store.gameBoard[randomCorner] = 'o'
       $(`div[data-cell-index='${randomCorner}']`).text('o')
       store.cellId = randomCorner
+    } else {
+      for (let i = 0; i < 9; i++) {
+        if (store.gameBoard[i] === '') {
+          store.gameBoard[i] = 'o'
+          $(`div[data-cell-index='${i}']`).text('o')
+          store.cellId = i
+        }
+      }
     }
   }
   // tally up the number of Xs and Os in the different rows columns diagonals
