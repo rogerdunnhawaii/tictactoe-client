@@ -28,6 +28,7 @@ $(() => {
 
   $('#guest-button').on('click', gameEvents.onGuestClick)
 
+  gameEvents.onGuestClick()
   // for debugging
   // gameEvents.onGuestClick(arrs);
   // gameEvents.updateUI(arrs);

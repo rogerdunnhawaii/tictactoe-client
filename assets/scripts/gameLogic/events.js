@@ -4,11 +4,97 @@ const ui = require('./ui')
 const getFormFields = require('../../../lib/get-form-fields')
 const store = require('../store')
 
+const { ifMiddleCellIsOpen,
+  ifMiddleTaken,
+  ifTwoXsAndEmptyCell,
+  ifOneDiagLineAlternating,
+  ifOneDiagLineXXO,
+  ifTwoXOnEdgeOneOInMiddle } = require("./aiLogic");
+
 const arrs = [
   ['', '', ''],
   ['', '', ''],
   ['', '', '']
 ]
+
+
+const guestOnClick = function (index, arrs) {
+  console.log(arrs)
+  console.log(index)
+  const [arrIndexI, arrIndexJ] = convertNormalIndexToArrayIndex(index)
+  console.log(arrIndexI, arrIndexJ)
+  arrs[arrIndexI][arrIndexJ] = 'X'
+  renderArrs(arrs)
+  AIturn(arrs)
+}
+
+
+const renderArrs = function (arrs) {
+  let currentCellIndex = 0
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      $(`div[data-cell-index=${currentCellIndex}]`).text(arrs[i][j])
+      currentCellIndex++
+    }
+  }
+}
+
+const onClick = function () {
+  // if you signed in
+  // if (store.guest === false) {
+  //   if (store.game.over === false) {
+  //     const turns = decision.countClicks()
+  //     const cellId = $(this).attr('data-cell-index')
+  //     if (decision.alreadyHasAValue(store, cellId)) {
+  //       $('#Message').html('choose a different cell')
+  //     } else {
+  //       if (store.game.cells.every(x => x === '')) {
+  //         store.lastmove = 'x'
+  //         $(this).text(store.lastmove)
+  //       }
+  //       $(this).text(store.lastmove)
+  //       const xOrO = store.lastmove
+  //       if (xOrO === 'o') {
+  //         $('#Message').html(`It is Player X's Turn`)
+  //
+  //         store.countOfO += 1
+  //       } else {
+  //         $('#Message').html(`It is Player O's Turn`)
+  //         store.countOfX += 1
+  //       }
+  //       decision.isTied(turns)
+  //       decision.isWinner(cellId, xOrO)
+  //       api.updateTurn(cellId, store.lastmove)
+  //         .then(ui.onUpdateGameSuccess)
+  //         .catch(ui.onUpdateGameFailure)
+  //       decision.determineValue()
+  //     }
+  //   }
+  // } else {
+  // console.log('clicked');
+  const index = $(this).attr('data-cell-index')
+  // console.log(index);
+  guestOnClick(index, arrs)
+
+  // // if you are a guest playing AI
+  // console.log('store as guest', store)
+  // const cellId = $(this).attr('data-cell-index')
+  // console.log('cell id is', cellId)
+  // store.cellId = cellId
+  // console.log('store.cellId on Player X turn is', store.cellId)
+  // // if (decision.alreadyHasAValue(cellId)) {
+  // //   $('#Message').html('choose a different cell')
+  // // } else {
+  // // if (store.game.cells.every(x => x === '')) {
+  // //   store.lastmove = 'x'
+  // $(this).text(store.lastmove)
+  // store.gameBoard[cellId] = store.lastmove
+  // console.log('gameboard if cell is open', store.gameBoard)
+  // decision.sumOfXandO(cellId, 'x')
+  // console.log('store guest playing AI after sumOfXandO', store)
+  // AIturn()
+}
+
 
 const onGameIndex = function (event) {
   event.preventDefault()
@@ -107,152 +193,7 @@ const convertNormalIndexToArrayIndex = function (normalIndex) {
   return [i, j]
 }
 
-const guestOnClick = function (index, arrs) {
-  console.log(arrs)
-  console.log(index)
-  const [arrIndexI, arrIndexJ] = convertNormalIndexToArrayIndex(index)
-  console.log(arrIndexI, arrIndexJ)
-  arrs[arrIndexI][arrIndexJ] = 'X'
-  renderArrs(arrs)
-  AIturn(arrs)
-}
 
-const ifMiddleCellIsOpen = function (arrs) {
-  if (arrs[1][1] === '') {
-    arrs[1][1] = 'O'
-  }
-}
-
-const ifMiddleTaken = function (arrs) {
-  if (arrs[1][1] === 'X') {
-    const randomCornerNumber = generateRandomCornerNumber()
-    const [arrIndexI, arrIndexJ] = convertNormalIndexToArrayIndex(randomCornerNumber)
-    arrs[arrIndexI][arrIndexJ] = 'O'
-  }
-}
-
-const ifTwoXsAndEmptyCell = function (arrs) {
-  let countOfO = 0
-  let countOfX = 0
-  let countOfBlank = 0
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-      if (arrs[0][j] === 'X') {
-        countOfX++
-      } else if (arrs[0][j] === 'O') {
-        countOfO++
-      } else {
-        countOfBlank++
-      }
-      // code for row 1 (if this is the correct approach I need to do this for 8 possibilities, is there a DRYer way?)
-      if (countOfX === 2 && countOfBlank === 1 && countOfO === 0) {
-        for (let j = 0; j < 3; j++) {
-          if (arrs[0][j] === '') {
-            arrs[0][j] = 'O'
-          }
-        }
-      }
-    }
-  }
-}
-
-const ifOneDiagLineAlternating = function (arrs) {
-  if ((arrs[0][0] === 'X' && arrs[1][1] === 'O' && arrs[2][2] === 'X') || (arrs[0][2] === 'X' && arrs[1][1] === 'O' && arrs[2][0] === 'X')) {
-    const randomMiddleNumber = generateRandomMiddleNumber()
-    const [arrIndexI, arrIndexJ] = convertNormalIndexToArrayIndex(randomMiddleNumber)
-    arrs[arrIndexI][arrIndexJ] = 'O'
-  }
-}
-
-const ifOneDiagLineXXO = function (arrs) {
-  if ((arrs[0][0] === 'X' && arrs[1][1] === 'X' && arrs[2][2] === 'O') || (arrs[0][2] === 'X' && arrs[1][1] === 'X' && arrs[2][0] === 'O') || (arrs[0][2] === 'O' && arrs[1][1] === 'X' && arrs[2][0] === 'X') || (arrs[0][0] === 'O' && arrs[1][1] === 'X' && arrs[2][2] === 'X')) {
-    const randomCornerNumber = generateRandomCornerNumber()
-    const [arrIndexI, arrIndexJ] = convertNormalIndexToArrayIndex(randomCornerNumber)
-    arrs[arrIndexI][arrIndexJ] = 'O'
-  }
-}
-
-const ifTwoXOnEdgeOneOInMiddle = function (arrs) {
-  if ((arrs[0][1] === 'X' && arrs[1][1] === 'O' && arrs[1][0] === 'X') || (arrs[1][0] === 'X' && arrs[1][1] === 'O' && arrs[2][1] === 'X') || (arrs[2][1] === 'X' && arrs[1][1] === 'O' && arrs[1][2] === 'X') || (arrs[1][2] === 'X' && arrs[1][1] === 'O' && arrs[0][1] === 'X')) {
-    const randomCornerNumber = generateRandomCornerNumber()
-    const [arrIndexI, arrIndexJ] = convertNormalIndexToArrayIndex(randomCornerNumber)
-    console.log('arrIndexI', arrIndexI)
-    console.log('arrIndexJ', arrIndexJ)
-    if (
-      arrs[arrIndexI - 1][arrIndexJ] === 'X' ||
-      arrs[arrIndexI][arrIndexJ - 1] === 'X' ||
-      arrs[arrIndexI + 1][arrIndexJ] === 'X' ||
-      arrs[arrIndexI][arrIndexJ + 1] === 'X') {
-      arrs[arrIndexI][arrIndexJ] = 'O'
-    }
-  }
-}
-
-const renderArrs = function (arrs) {
-  let currentCellIndex = 0
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-      $(`div[data-cell-index=${currentCellIndex}]`).text(arrs[i][j])
-      currentCellIndex++
-    }
-  }
-}
-
-const onClick = function () {
-  // if you signed in
-  // if (store.guest === false) {
-  //   if (store.game.over === false) {
-  //     const turns = decision.countClicks()
-  //     const cellId = $(this).attr('data-cell-index')
-  //     if (decision.alreadyHasAValue(store, cellId)) {
-  //       $('#Message').html('choose a different cell')
-  //     } else {
-  //       if (store.game.cells.every(x => x === '')) {
-  //         store.lastmove = 'x'
-  //         $(this).text(store.lastmove)
-  //       }
-  //       $(this).text(store.lastmove)
-  //       const xOrO = store.lastmove
-  //       if (xOrO === 'o') {
-  //         $('#Message').html(`It is Player X's Turn`)
-  //
-  //         store.countOfO += 1
-  //       } else {
-  //         $('#Message').html(`It is Player O's Turn`)
-  //         store.countOfX += 1
-  //       }
-  //       decision.isTied(turns)
-  //       decision.isWinner(cellId, xOrO)
-  //       api.updateTurn(cellId, store.lastmove)
-  //         .then(ui.onUpdateGameSuccess)
-  //         .catch(ui.onUpdateGameFailure)
-  //       decision.determineValue()
-  //     }
-  //   }
-  // } else {
-  // console.log('clicked');
-  const index = $(this).attr('data-cell-index')
-  // console.log(index);
-  guestOnClick(index, arrs)
-
-  // // if you are a guest playing AI
-  // console.log('store as guest', store)
-  // const cellId = $(this).attr('data-cell-index')
-  // console.log('cell id is', cellId)
-  // store.cellId = cellId
-  // console.log('store.cellId on Player X turn is', store.cellId)
-  // // if (decision.alreadyHasAValue(cellId)) {
-  // //   $('#Message').html('choose a different cell')
-  // // } else {
-  // // if (store.game.cells.every(x => x === '')) {
-  // //   store.lastmove = 'x'
-  // $(this).text(store.lastmove)
-  // store.gameBoard[cellId] = store.lastmove
-  // console.log('gameboard if cell is open', store.gameBoard)
-  // decision.sumOfXandO(cellId, 'x')
-  // console.log('store guest playing AI after sumOfXandO', store)
-  // AIturn()
-}
 // const xOrO = store.lastmove
 // if (xOrO === 'o') {
 //   $('#Message').html(`It is Player X's Turn`)
@@ -288,170 +229,170 @@ const AIturn = function (arrs) {
   // check to see if there is an open cell
 
   // IF THERE IS TWO O IN SAME ROW, FILL THIRD CELL
-//   if (store.sumOfRow1 === 2 || store.sumOfRow2 === 2 || store.sumOfRow3 === 2 || store.sumOfCol1 === 2 || store.sumOfCol2 === 2 || store.sumOfCol3 === 2 || store.sumOfDiag === 2 || store.sumOfAntiDiag === 2) {
-//     if (store.sumOfRow1 === 2 && store.row1Complete === false) {
-//       if (store.gameBoard[0] === '') {
-//         store.gameBoard[0] = 'o'
-//         $(`div[data-cell-index='0']`).text('o')
-//       } else if (store.gameBoard[1] === '') {
-//         store.gameBoard[1] = 'o'
-//         $(`div[data-cell-index='1']`).text('o')
-//       } else if (store.gameBoard[2] === '') {
-//         store.gameBoard[2] = 'o'
-//         $(`div[data-cell-index='2']`).text('o')
-//       }
-//       store.row1Complete = true
-//     } else if (store.sumOfRow2 === 2 && store.row2Complete === false) {
-//       if (store.gameBoard[3] === '') {
-//         store.gameBoard[3] = 'o'
-//         $(`div[data-cell-index='3']`).text('o')
-//       } else if (store.gameBoard[4] === '') {
-//         store.gameBoard[4] = 'o'
-//         $(`div[data-cell-index='4']`).text('o')
-//       } else if (store.gameBoard[5] === '') {
-//         store.gameBoard[5] = 'o'
-//         $(`div[data-cell-index='5']`).text('o')
-//       }
-//       store.row2Complete = true
-//     } else if (store.sumOfRow3 === 2 && store.row3Complete === false) {
-//       if (store.gameBoard[6] === '') {
-//         store.gameBoard[6] = 'o'
-//         $(`div[data-cell-index='6']`).text('o')
-//       } else if (store.gameBoard[7] === '') {
-//         store.gameBoard[7] = 'o'
-//         $(`div[data-cell-index='7']`).text('o')
-//       } else if (store.gameBoard[8] === '') {
-//         store.gameBoard[8] = 'o'
-//         $(`div[data-cell-index='8']`).text('o')
-//       }
-//       store.row3Complete = true
-//     } else if (store.sumOfCol1 === 2 && store.col1Complete === false) {
-//       if (store.gameBoard[0] === '') {
-//         store.gameBoard[0] = 'o'
-//         $(`div[data-cell-index='0']`).text('o')
-//       } else if (store.gameBoard[3] === '') {
-//         store.gameBoard[3] = 'o'
-//         $(`div[data-cell-index='3']`).text('o')
-//       } else if (store.gameBoard[6] === '') {
-//         store.gameBoard[6] = 'o'
-//         $(`div[data-cell-index='6']`).text('o')
-//       }
-//       store.col1Complete = true
-//     } else if (store.sumOfCol2 === 2 && store.col2Complete === false) {
-//       if (store.gameBoard[1] === '') {
-//         store.gameBoard[1] = 'o'
-//         $(`div[data-cell-index='1']`).text('o')
-//       } else if (store.gameBoard[4] === '') {
-//         store.gameBoard[4] = 'o'
-//         $(`div[data-cell-index='4']`).text('o')
-//       } else if (store.gameBoard[7] === '') {
-//         store.gameBoard[7] = 'o'
-//         $(`div[data-cell-index='7']`).text('o')
-//       }
-//       store.col2Complete = true
-//     } else if (store.sumOfCol3 === 2 && store.col3Complete === false) {
-//       if (store.gameBoard[2] === '') {
-//         store.gameBoard[2] = 'o'
-//         $(`div[data-cell-index='2']`).text('o')
-//       } else if (store.gameBoard[5] === '') {
-//         store.gameBoard[5] = 'o'
-//         $(`div[data-cell-index='5']`).text('o')
-//       } else if (store.gameBoard[8] === '') {
-//         store.gameBoard[8] = 'o'
-//         $(`div[data-cell-index='8']`).text('o')
-//       }
-//       store.col3Complete = true
-//     } else if (store.sumOfDiag === 2 && store.diagComplete === false) {
-//       if (store.gameBoard[0] === '') {
-//         store.gameBoard[0] = 'o'
-//         $(`div[data-cell-index='0']`).text('o')
-//       } else if (store.gameBoard[4] === '') {
-//         store.gameBoard[4] = 'o'
-//         $(`div[data-cell-index='4']`).text('o')
-//       } else if (store.gameBoard[8] === '') {
-//         store.gameBoard[8] = 'o'
-//         $(`div[data-cell-index='6']`).text('o')
-//       } else if (store.gameBoard[0] !== '' && store.gameBoard[4] !== '' && store.gameBoard[8] !== '') {
-//         const cornerArray = [2, 6]
-//         let randomCorner = cornerArray[Math.floor(Math.random() * cornerArray.length)]
-//         console.log('randomCorner', randomCorner)
-//         while (store.gameBoard[randomCorner] !== '') {
-//           randomCorner = generateRandomCornerNumber()
-//           return randomCorner
-//         }
-//         store.gameBoard[randomCorner] = 'o'
-//         $(`div[data-cell-index='${randomCorner}']`).text('o')
-//         store.cellId = randomCorner
-//       }
-//       store.diagComplete = true
-//     } else if (store.sumOfAntiDiag === 2 && store.antiDiagComplete === false) {
-//       if (store.gameBoard[2] === '') {
-//         store.gameBoard[2] = 'o'
-//         $(`div[data-cell-index='2']`).text('o')
-//       } else if (store.gameBoard[4] === '') {
-//         store.gameBoard[4] = 'o'
-//         $(`div[data-cell-index='4']`).text('o')
-//       } else if (store.gameBoard[6] === '') {
-//         store.gameBoard[6] = 'o'
-//         $(`div[data-cell-index='6']`).text('o')
-//       } else if (store.gameBoard[2] !== '' && store.gameBoard[4] !== '' && store.gameBoard[6] !== '') {
-//         const cornerArray = [0, 8]
-//         let randomCorner = cornerArray[Math.floor(Math.random() * cornerArray.length)]
-//         console.log('randomCorner', randomCorner)
-//         while (store.gameBoard[randomCorner] !== '') {
-//           randomCorner = generateRandomCornerNumber()
-//           return randomCorner
-//         }
-//         store.gameBoard[randomCorner] = 'o'
-//         $(`div[data-cell-index='${randomCorner}']`).text('o')
-//         store.cellId = randomCorner
-//       }
-//     }
-//     store.antiDiagComplete = true
-//   } else {
-//     if (store.gameBoard[4] === '') {
-//       store.gameBoard[4] = 'o'
-//       $(`div[data-cell-index='4']`).text('o')
-//       store.cellId = 4
-//
-//       // *IF THERE IS O IN THE MIDDLE CELL PUT O ONE OF THE CELLS 1,3,5,7
-//     } else if (store.gameBoard[4] === 'o') {
-//       let randomMiddleEdge = generateRandomMiddleNumber()
-//       console.log('randomMiddleEdge', randomMiddleEdge)
-//       while (store.gameBoard[randomMiddleEdge] !== '') {
-//         randomMiddleEdge = generateRandomMiddleNumber()
-//         return randomMiddleEdge
-//       }
-//       store.gameBoard[randomMiddleEdge] = 'o'
-//       $(`div[data-cell-index='${randomMiddleEdge}']`).text('o')
-//       store.cellId = randomMiddleEdge
-//
-//     // IF MIDDLE CELL IS OCCUPIED PUT ON ANY OF VACANT CORNER CELLS
-//     } else if (store.gameBoard[4] === 'x') {
-//       let randomCorner = generateRandomCornerNumber()
-//       console.log('randomCorner', randomCorner)
-//       while (store.gameBoard[randomCorner] !== '') {
-//         randomCorner = generateRandomCornerNumber()
-//         return randomCorner
-//       }
-//       store.gameBoard[randomCorner] = 'o'
-//       $(`div[data-cell-index='${randomCorner}']`).text('o')
-//       store.cellId = randomCorner
-//     } else {
-//       for (let i = 0; i < 9; i++) {
-//         if (store.gameBoard[i] === '') {
-//           store.gameBoard[i] = 'o'
-//           $(`div[data-cell-index='${i}']`).text('o')
-//           store.cellId = i
-//         }
-//       }
-//     }
-//   }
-//   // tally up the number of Xs and Os in the different rows columns diagonals
-//   console.log('store.cellId on Player O turn is', store.cellId)
-//   decision.sumOfXandO('store.cellId', 'o')
-//   console.log('store after sumOfXandO', store)
-// }
+  //   if (store.sumOfRow1 === 2 || store.sumOfRow2 === 2 || store.sumOfRow3 === 2 || store.sumOfCol1 === 2 || store.sumOfCol2 === 2 || store.sumOfCol3 === 2 || store.sumOfDiag === 2 || store.sumOfAntiDiag === 2) {
+  //     if (store.sumOfRow1 === 2 && store.row1Complete === false) {
+  //       if (store.gameBoard[0] === '') {
+  //         store.gameBoard[0] = 'o'
+  //         $(`div[data-cell-index='0']`).text('o')
+  //       } else if (store.gameBoard[1] === '') {
+  //         store.gameBoard[1] = 'o'
+  //         $(`div[data-cell-index='1']`).text('o')
+  //       } else if (store.gameBoard[2] === '') {
+  //         store.gameBoard[2] = 'o'
+  //         $(`div[data-cell-index='2']`).text('o')
+  //       }
+  //       store.row1Complete = true
+  //     } else if (store.sumOfRow2 === 2 && store.row2Complete === false) {
+  //       if (store.gameBoard[3] === '') {
+  //         store.gameBoard[3] = 'o'
+  //         $(`div[data-cell-index='3']`).text('o')
+  //       } else if (store.gameBoard[4] === '') {
+  //         store.gameBoard[4] = 'o'
+  //         $(`div[data-cell-index='4']`).text('o')
+  //       } else if (store.gameBoard[5] === '') {
+  //         store.gameBoard[5] = 'o'
+  //         $(`div[data-cell-index='5']`).text('o')
+  //       }
+  //       store.row2Complete = true
+  //     } else if (store.sumOfRow3 === 2 && store.row3Complete === false) {
+  //       if (store.gameBoard[6] === '') {
+  //         store.gameBoard[6] = 'o'
+  //         $(`div[data-cell-index='6']`).text('o')
+  //       } else if (store.gameBoard[7] === '') {
+  //         store.gameBoard[7] = 'o'
+  //         $(`div[data-cell-index='7']`).text('o')
+  //       } else if (store.gameBoard[8] === '') {
+  //         store.gameBoard[8] = 'o'
+  //         $(`div[data-cell-index='8']`).text('o')
+  //       }
+  //       store.row3Complete = true
+  //     } else if (store.sumOfCol1 === 2 && store.col1Complete === false) {
+  //       if (store.gameBoard[0] === '') {
+  //         store.gameBoard[0] = 'o'
+  //         $(`div[data-cell-index='0']`).text('o')
+  //       } else if (store.gameBoard[3] === '') {
+  //         store.gameBoard[3] = 'o'
+  //         $(`div[data-cell-index='3']`).text('o')
+  //       } else if (store.gameBoard[6] === '') {
+  //         store.gameBoard[6] = 'o'
+  //         $(`div[data-cell-index='6']`).text('o')
+  //       }
+  //       store.col1Complete = true
+  //     } else if (store.sumOfCol2 === 2 && store.col2Complete === false) {
+  //       if (store.gameBoard[1] === '') {
+  //         store.gameBoard[1] = 'o'
+  //         $(`div[data-cell-index='1']`).text('o')
+  //       } else if (store.gameBoard[4] === '') {
+  //         store.gameBoard[4] = 'o'
+  //         $(`div[data-cell-index='4']`).text('o')
+  //       } else if (store.gameBoard[7] === '') {
+  //         store.gameBoard[7] = 'o'
+  //         $(`div[data-cell-index='7']`).text('o')
+  //       }
+  //       store.col2Complete = true
+  //     } else if (store.sumOfCol3 === 2 && store.col3Complete === false) {
+  //       if (store.gameBoard[2] === '') {
+  //         store.gameBoard[2] = 'o'
+  //         $(`div[data-cell-index='2']`).text('o')
+  //       } else if (store.gameBoard[5] === '') {
+  //         store.gameBoard[5] = 'o'
+  //         $(`div[data-cell-index='5']`).text('o')
+  //       } else if (store.gameBoard[8] === '') {
+  //         store.gameBoard[8] = 'o'
+  //         $(`div[data-cell-index='8']`).text('o')
+  //       }
+  //       store.col3Complete = true
+  //     } else if (store.sumOfDiag === 2 && store.diagComplete === false) {
+  //       if (store.gameBoard[0] === '') {
+  //         store.gameBoard[0] = 'o'
+  //         $(`div[data-cell-index='0']`).text('o')
+  //       } else if (store.gameBoard[4] === '') {
+  //         store.gameBoard[4] = 'o'
+  //         $(`div[data-cell-index='4']`).text('o')
+  //       } else if (store.gameBoard[8] === '') {
+  //         store.gameBoard[8] = 'o'
+  //         $(`div[data-cell-index='6']`).text('o')
+  //       } else if (store.gameBoard[0] !== '' && store.gameBoard[4] !== '' && store.gameBoard[8] !== '') {
+  //         const cornerArray = [2, 6]
+  //         let randomCorner = cornerArray[Math.floor(Math.random() * cornerArray.length)]
+  //         console.log('randomCorner', randomCorner)
+  //         while (store.gameBoard[randomCorner] !== '') {
+  //           randomCorner = generateRandomCornerNumber()
+  //           return randomCorner
+  //         }
+  //         store.gameBoard[randomCorner] = 'o'
+  //         $(`div[data-cell-index='${randomCorner}']`).text('o')
+  //         store.cellId = randomCorner
+  //       }
+  //       store.diagComplete = true
+  //     } else if (store.sumOfAntiDiag === 2 && store.antiDiagComplete === false) {
+  //       if (store.gameBoard[2] === '') {
+  //         store.gameBoard[2] = 'o'
+  //         $(`div[data-cell-index='2']`).text('o')
+  //       } else if (store.gameBoard[4] === '') {
+  //         store.gameBoard[4] = 'o'
+  //         $(`div[data-cell-index='4']`).text('o')
+  //       } else if (store.gameBoard[6] === '') {
+  //         store.gameBoard[6] = 'o'
+  //         $(`div[data-cell-index='6']`).text('o')
+  //       } else if (store.gameBoard[2] !== '' && store.gameBoard[4] !== '' && store.gameBoard[6] !== '') {
+  //         const cornerArray = [0, 8]
+  //         let randomCorner = cornerArray[Math.floor(Math.random() * cornerArray.length)]
+  //         console.log('randomCorner', randomCorner)
+  //         while (store.gameBoard[randomCorner] !== '') {
+  //           randomCorner = generateRandomCornerNumber()
+  //           return randomCorner
+  //         }
+  //         store.gameBoard[randomCorner] = 'o'
+  //         $(`div[data-cell-index='${randomCorner}']`).text('o')
+  //         store.cellId = randomCorner
+  //       }
+  //     }
+  //     store.antiDiagComplete = true
+  //   } else {
+  //     if (store.gameBoard[4] === '') {
+  //       store.gameBoard[4] = 'o'
+  //       $(`div[data-cell-index='4']`).text('o')
+  //       store.cellId = 4
+  //
+  //       // *IF THERE IS O IN THE MIDDLE CELL PUT O ONE OF THE CELLS 1,3,5,7
+  //     } else if (store.gameBoard[4] === 'o') {
+  //       let randomMiddleEdge = generateRandomMiddleNumber()
+  //       console.log('randomMiddleEdge', randomMiddleEdge)
+  //       while (store.gameBoard[randomMiddleEdge] !== '') {
+  //         randomMiddleEdge = generateRandomMiddleNumber()
+  //         return randomMiddleEdge
+  //       }
+  //       store.gameBoard[randomMiddleEdge] = 'o'
+  //       $(`div[data-cell-index='${randomMiddleEdge}']`).text('o')
+  //       store.cellId = randomMiddleEdge
+  //
+  //     // IF MIDDLE CELL IS OCCUPIED PUT ON ANY OF VACANT CORNER CELLS
+  //     } else if (store.gameBoard[4] === 'x') {
+  //       let randomCorner = generateRandomCornerNumber()
+  //       console.log('randomCorner', randomCorner)
+  //       while (store.gameBoard[randomCorner] !== '') {
+  //         randomCorner = generateRandomCornerNumber()
+  //         return randomCorner
+  //       }
+  //       store.gameBoard[randomCorner] = 'o'
+  //       $(`div[data-cell-index='${randomCorner}']`).text('o')
+  //       store.cellId = randomCorner
+  //     } else {
+  //       for (let i = 0; i < 9; i++) {
+  //         if (store.gameBoard[i] === '') {
+  //           store.gameBoard[i] = 'o'
+  //           $(`div[data-cell-index='${i}']`).text('o')
+  //           store.cellId = i
+  //         }
+  //       }
+  //     }
+  //   }
+  //   // tally up the number of Xs and Os in the different rows columns diagonals
+  //   console.log('store.cellId on Player O turn is', store.cellId)
+  //   decision.sumOfXandO('store.cellId', 'o')
+  //   console.log('store after sumOfXandO', store)
+  // }
 }
 
 module.exports = {
