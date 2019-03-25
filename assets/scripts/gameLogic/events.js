@@ -7,36 +7,70 @@ const store = require('../store')
 const { ifMiddleCellIsOpen,
   ifMiddleTaken,
   ifTwoXsAndEmptyCell,
-  ifOneDiagLineAlternating,
   ifOneDiagLineXXO,
-  ifTwoXOnEdgeOneOInMiddle } = require("./aiLogic");
+  ifTwoXOnEdgeOneOInMiddle,
+  isMiddleCellOpen,
+  isTwoXExistInRowHoriOrVerOrDiagnal,
+  isElementsInLine2OfPlayerAndThirdIsEmpty,
+  isDiagnalAlternating,
+  isCrossAlternating,
+  putPlayerInMiddleEdge,
+  convertNormalIndexToArrayIndex
+} = require("./lib/aiLogic");
 
-const arrs = [
+let arrs = [
   ['', '', ''],
   ['', '', ''],
   ['', '', '']
 ]
 
+const USER_PLAYER = 'X'
+const COMPUTER_PLAYER = 'O'
 
-const guestOnClick = function (index, arrs) {
-  console.log(arrs)
-  console.log(index)
+const onCellClick = function (index, currentArrs) {
+
+  // showing the user's new move
+  // todo: make global
   const [arrIndexI, arrIndexJ] = convertNormalIndexToArrayIndex(index)
-  console.log(arrIndexI, arrIndexJ)
-  arrs[arrIndexI][arrIndexJ] = 'X'
-  renderArrs(arrs)
-  AIturn(arrs)
+  currentArrs[arrIndexI][arrIndexJ] = USER_PLAYER
+  renderArrs(currentArrs)
+
+  // calcualte computer move and show its move
+  let updatedArrsWithAIMove = calculateAIMove(currentArrs)
+  renderArrs(updatedArrsWithAIMove);
 }
 
 
-const renderArrs = function (arrs) {
-  let currentCellIndex = 0
-  for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 3; j++) {
-      $(`div[data-cell-index=${currentCellIndex}]`).text(arrs[i][j])
-      currentCellIndex++
-    }
+
+
+const calculateAIMove = function (currentArrs) {
+  // console.log('it is now AI turn')
+
+  // currentArrs = [
+  //   ['X', '', ''],
+  //   ['', 'O', ''],
+  //   ['', '', 'X']
+  // ]
+
+  
+  if (isMiddleCellOpen(currentArrs)) {
+    currentArrs[1][1] = COMPUTER_PLAYER
+  } else if (isTwoXExistInRowHoriOrVerOrDiagnal(currentArrs)) {
+    let emptyCellXY = isTwoXExistInRowHoriOrVerOrDiagnal(currentArrs)
+    currentArrs[emptyCellXY[0]][emptyCellXY[1]] = COMPUTER_PLAYER
+  } else if (isDiagnalAlternating(currentArrs)) {
+    putPlayerInMiddleEdge(currentArrs, 'O')
   }
+
+
+  return currentArrs;
+  // ifTwoXOnEdgeOneOInMiddle(arrs)
+  // ifTwoXsAndEmptyCell(arrs)
+  // ifOneDiagLineXXO(arrs)
+  // ifOneDiagLineAlternating(arrs)
+
+  // ifMiddleTaken(arrs)
+
 }
 
 const onClick = function () {
@@ -74,7 +108,7 @@ const onClick = function () {
   // console.log('clicked');
   const index = $(this).attr('data-cell-index')
   // console.log(index);
-  guestOnClick(index, arrs)
+  onCellClick(index, arrs)
 
   // // if you are a guest playing AI
   // console.log('store as guest', store)
@@ -95,6 +129,15 @@ const onClick = function () {
   // AIturn()
 }
 
+const renderArrs = function (arrs) {
+  let currentCellIndex = 0
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      $(`div[data-cell-index=${currentCellIndex}]`).text(arrs[i][j])
+      currentCellIndex++
+    }
+  }
+}
 
 const onGameIndex = function (event) {
   event.preventDefault()
@@ -115,8 +158,8 @@ const clearArray = function () {
   ]
   return arrs
 }
-const onGuestClick = () => {
-  clearArray()
+const onStartPlayGameAgainstAI = () => {
+  arrs = clearArray()
   $('.bottom-grid').show()
   $('#create-game').show()
   $('#game-index').show()
@@ -186,12 +229,6 @@ const onUpdateGame = function (event) {
     .catch(ui.onUpdateGameFailure)
 }
 
-const convertNormalIndexToArrayIndex = function (normalIndex) {
-  const i = Math.floor(normalIndex / 3)
-  const j = normalIndex % 3
-
-  return [i, j]
-}
 
 
 // const xOrO = store.lastmove
@@ -205,195 +242,7 @@ const convertNormalIndexToArrayIndex = function (normalIndex) {
 // decision.isWinner(cellId, xOrO)
 // }
 
-const generateRandomMiddleNumber = () => {
-  const middleArray = [1, 3, 5, 7]
-  const randomMiddleEdge = middleArray[Math.floor(Math.random() * middleArray.length)]
-  return randomMiddleEdge
-}
 
-const generateRandomCornerNumber = () => {
-  const cornerArray = [0, 2, 6, 8]
-  const randomCorner = cornerArray[Math.floor(Math.random() * cornerArray.length)]
-  return randomCorner
-}
-
-const AIturn = function (arrs) {
-  console.log('it is now AI turn')
-  ifTwoXOnEdgeOneOInMiddle(arrs)
-  ifTwoXsAndEmptyCell(arrs)
-  ifOneDiagLineXXO(arrs)
-  ifOneDiagLineAlternating(arrs)
-  ifMiddleCellIsOpen(arrs)
-  ifMiddleTaken(arrs)
-  renderArrs(arrs)
-  // check to see if there is an open cell
-
-  // IF THERE IS TWO O IN SAME ROW, FILL THIRD CELL
-  //   if (store.sumOfRow1 === 2 || store.sumOfRow2 === 2 || store.sumOfRow3 === 2 || store.sumOfCol1 === 2 || store.sumOfCol2 === 2 || store.sumOfCol3 === 2 || store.sumOfDiag === 2 || store.sumOfAntiDiag === 2) {
-  //     if (store.sumOfRow1 === 2 && store.row1Complete === false) {
-  //       if (store.gameBoard[0] === '') {
-  //         store.gameBoard[0] = 'o'
-  //         $(`div[data-cell-index='0']`).text('o')
-  //       } else if (store.gameBoard[1] === '') {
-  //         store.gameBoard[1] = 'o'
-  //         $(`div[data-cell-index='1']`).text('o')
-  //       } else if (store.gameBoard[2] === '') {
-  //         store.gameBoard[2] = 'o'
-  //         $(`div[data-cell-index='2']`).text('o')
-  //       }
-  //       store.row1Complete = true
-  //     } else if (store.sumOfRow2 === 2 && store.row2Complete === false) {
-  //       if (store.gameBoard[3] === '') {
-  //         store.gameBoard[3] = 'o'
-  //         $(`div[data-cell-index='3']`).text('o')
-  //       } else if (store.gameBoard[4] === '') {
-  //         store.gameBoard[4] = 'o'
-  //         $(`div[data-cell-index='4']`).text('o')
-  //       } else if (store.gameBoard[5] === '') {
-  //         store.gameBoard[5] = 'o'
-  //         $(`div[data-cell-index='5']`).text('o')
-  //       }
-  //       store.row2Complete = true
-  //     } else if (store.sumOfRow3 === 2 && store.row3Complete === false) {
-  //       if (store.gameBoard[6] === '') {
-  //         store.gameBoard[6] = 'o'
-  //         $(`div[data-cell-index='6']`).text('o')
-  //       } else if (store.gameBoard[7] === '') {
-  //         store.gameBoard[7] = 'o'
-  //         $(`div[data-cell-index='7']`).text('o')
-  //       } else if (store.gameBoard[8] === '') {
-  //         store.gameBoard[8] = 'o'
-  //         $(`div[data-cell-index='8']`).text('o')
-  //       }
-  //       store.row3Complete = true
-  //     } else if (store.sumOfCol1 === 2 && store.col1Complete === false) {
-  //       if (store.gameBoard[0] === '') {
-  //         store.gameBoard[0] = 'o'
-  //         $(`div[data-cell-index='0']`).text('o')
-  //       } else if (store.gameBoard[3] === '') {
-  //         store.gameBoard[3] = 'o'
-  //         $(`div[data-cell-index='3']`).text('o')
-  //       } else if (store.gameBoard[6] === '') {
-  //         store.gameBoard[6] = 'o'
-  //         $(`div[data-cell-index='6']`).text('o')
-  //       }
-  //       store.col1Complete = true
-  //     } else if (store.sumOfCol2 === 2 && store.col2Complete === false) {
-  //       if (store.gameBoard[1] === '') {
-  //         store.gameBoard[1] = 'o'
-  //         $(`div[data-cell-index='1']`).text('o')
-  //       } else if (store.gameBoard[4] === '') {
-  //         store.gameBoard[4] = 'o'
-  //         $(`div[data-cell-index='4']`).text('o')
-  //       } else if (store.gameBoard[7] === '') {
-  //         store.gameBoard[7] = 'o'
-  //         $(`div[data-cell-index='7']`).text('o')
-  //       }
-  //       store.col2Complete = true
-  //     } else if (store.sumOfCol3 === 2 && store.col3Complete === false) {
-  //       if (store.gameBoard[2] === '') {
-  //         store.gameBoard[2] = 'o'
-  //         $(`div[data-cell-index='2']`).text('o')
-  //       } else if (store.gameBoard[5] === '') {
-  //         store.gameBoard[5] = 'o'
-  //         $(`div[data-cell-index='5']`).text('o')
-  //       } else if (store.gameBoard[8] === '') {
-  //         store.gameBoard[8] = 'o'
-  //         $(`div[data-cell-index='8']`).text('o')
-  //       }
-  //       store.col3Complete = true
-  //     } else if (store.sumOfDiag === 2 && store.diagComplete === false) {
-  //       if (store.gameBoard[0] === '') {
-  //         store.gameBoard[0] = 'o'
-  //         $(`div[data-cell-index='0']`).text('o')
-  //       } else if (store.gameBoard[4] === '') {
-  //         store.gameBoard[4] = 'o'
-  //         $(`div[data-cell-index='4']`).text('o')
-  //       } else if (store.gameBoard[8] === '') {
-  //         store.gameBoard[8] = 'o'
-  //         $(`div[data-cell-index='6']`).text('o')
-  //       } else if (store.gameBoard[0] !== '' && store.gameBoard[4] !== '' && store.gameBoard[8] !== '') {
-  //         const cornerArray = [2, 6]
-  //         let randomCorner = cornerArray[Math.floor(Math.random() * cornerArray.length)]
-  //         console.log('randomCorner', randomCorner)
-  //         while (store.gameBoard[randomCorner] !== '') {
-  //           randomCorner = generateRandomCornerNumber()
-  //           return randomCorner
-  //         }
-  //         store.gameBoard[randomCorner] = 'o'
-  //         $(`div[data-cell-index='${randomCorner}']`).text('o')
-  //         store.cellId = randomCorner
-  //       }
-  //       store.diagComplete = true
-  //     } else if (store.sumOfAntiDiag === 2 && store.antiDiagComplete === false) {
-  //       if (store.gameBoard[2] === '') {
-  //         store.gameBoard[2] = 'o'
-  //         $(`div[data-cell-index='2']`).text('o')
-  //       } else if (store.gameBoard[4] === '') {
-  //         store.gameBoard[4] = 'o'
-  //         $(`div[data-cell-index='4']`).text('o')
-  //       } else if (store.gameBoard[6] === '') {
-  //         store.gameBoard[6] = 'o'
-  //         $(`div[data-cell-index='6']`).text('o')
-  //       } else if (store.gameBoard[2] !== '' && store.gameBoard[4] !== '' && store.gameBoard[6] !== '') {
-  //         const cornerArray = [0, 8]
-  //         let randomCorner = cornerArray[Math.floor(Math.random() * cornerArray.length)]
-  //         console.log('randomCorner', randomCorner)
-  //         while (store.gameBoard[randomCorner] !== '') {
-  //           randomCorner = generateRandomCornerNumber()
-  //           return randomCorner
-  //         }
-  //         store.gameBoard[randomCorner] = 'o'
-  //         $(`div[data-cell-index='${randomCorner}']`).text('o')
-  //         store.cellId = randomCorner
-  //       }
-  //     }
-  //     store.antiDiagComplete = true
-  //   } else {
-  //     if (store.gameBoard[4] === '') {
-  //       store.gameBoard[4] = 'o'
-  //       $(`div[data-cell-index='4']`).text('o')
-  //       store.cellId = 4
-  //
-  //       // *IF THERE IS O IN THE MIDDLE CELL PUT O ONE OF THE CELLS 1,3,5,7
-  //     } else if (store.gameBoard[4] === 'o') {
-  //       let randomMiddleEdge = generateRandomMiddleNumber()
-  //       console.log('randomMiddleEdge', randomMiddleEdge)
-  //       while (store.gameBoard[randomMiddleEdge] !== '') {
-  //         randomMiddleEdge = generateRandomMiddleNumber()
-  //         return randomMiddleEdge
-  //       }
-  //       store.gameBoard[randomMiddleEdge] = 'o'
-  //       $(`div[data-cell-index='${randomMiddleEdge}']`).text('o')
-  //       store.cellId = randomMiddleEdge
-  //
-  //     // IF MIDDLE CELL IS OCCUPIED PUT ON ANY OF VACANT CORNER CELLS
-  //     } else if (store.gameBoard[4] === 'x') {
-  //       let randomCorner = generateRandomCornerNumber()
-  //       console.log('randomCorner', randomCorner)
-  //       while (store.gameBoard[randomCorner] !== '') {
-  //         randomCorner = generateRandomCornerNumber()
-  //         return randomCorner
-  //       }
-  //       store.gameBoard[randomCorner] = 'o'
-  //       $(`div[data-cell-index='${randomCorner}']`).text('o')
-  //       store.cellId = randomCorner
-  //     } else {
-  //       for (let i = 0; i < 9; i++) {
-  //         if (store.gameBoard[i] === '') {
-  //           store.gameBoard[i] = 'o'
-  //           $(`div[data-cell-index='${i}']`).text('o')
-  //           store.cellId = i
-  //         }
-  //       }
-  //     }
-  //   }
-  //   // tally up the number of Xs and Os in the different rows columns diagonals
-  //   console.log('store.cellId on Player O turn is', store.cellId)
-  //   decision.sumOfXandO('store.cellId', 'o')
-  //   console.log('store after sumOfXandO', store)
-  // }
-}
 
 module.exports = {
   onGameIndex,
@@ -403,6 +252,6 @@ module.exports = {
   onClick,
   onViewGame,
   onClose,
-  onGuestClick,
+  onStartPlayGameAgainstAI,
   renderArrs
 }

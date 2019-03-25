@@ -26,9 +26,9 @@ $(() => {
   $('.close').click(gameEvents.onClose)
   $('.box').click(gameEvents.onClick)
 
-  $('#guest-button').on('click', gameEvents.onGuestClick)
+  $('#guest-button').on('click', gameEvents.onStartPlayGameAgainstAI)
 
-  gameEvents.onGuestClick()
+  gameEvents.onStartPlayGameAgainstAI()
   // for debugging
   // gameEvents.onGuestClick(arrs);
   // gameEvents.updateUI(arrs);
