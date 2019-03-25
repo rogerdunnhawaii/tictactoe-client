@@ -10,12 +10,20 @@ const { ifMiddleCellIsOpen,
   ifOneDiagLineXXO,
   ifTwoXOnEdgeOneOInMiddle,
   isMiddleCellOpen,
-  isTwoXExistInRowHoriOrVerOrDiagnal,
+  isTwoPlayerExistInRowHoriOrVerOrDiagnal,
   isElementsInLine2OfPlayerAndThirdIsEmpty,
   isDiagnalAlternating,
   isCrossAlternating,
   putPlayerInMiddleEdge,
-  convertNormalIndexToArrayIndex
+  convertNormalIndexToArrayIndex,
+  isAll4EdgesAreTaken,
+  putPlayerInCorner,
+  isAll4CornerTaken,
+  isCoordinateOpen,
+  isTwoPlayer1TogetherAndOnePlayer2InOneLineDiagnally,
+  isTwoPlayer1InMiddleEdgeNearEachOtherAndPlayer2AtCenter,
+  checkWinner,
+  isAllCellsTaken
 } = require("./lib/aiLogic");
 
 let arrs = [
@@ -29,48 +37,95 @@ const COMPUTER_PLAYER = 'O'
 
 const onCellClick = function (index, currentArrs) {
 
+  // disable the click after a winner is found
+  if (checkWinner(currentArrs)) {
+    // todo: uncomment out after testing
+    return
+  }
+
   // showing the user's new move
-  // todo: make global
-  const [arrIndexI, arrIndexJ] = convertNormalIndexToArrayIndex(index)
-  currentArrs[arrIndexI][arrIndexJ] = USER_PLAYER
+  const [x, y] = convertNormalIndexToArrayIndex(index)
+
+  if (!isCoordinateOpen(currentArrs, x, y)) { // coordinate taken
+    alert("You can't click on taken cell")
+    return
+  }
+
+  currentArrs[x][y] = USER_PLAYER
   renderArrs(currentArrs)
 
   // calcualte computer move and show its move
   let updatedArrsWithAIMove = calculateAIMove(currentArrs)
   renderArrs(updatedArrsWithAIMove);
-}
 
+  // after finished rendering both user and computer move
+  let winner = checkWinner(currentArrs)
+  if (winner) {
+    console.log('winner is found');
+    document.getElementById("user-message").innerHTML = `winner is ${winner}`
+  }
 
-
-
-const calculateAIMove = function (currentArrs) {
-  // console.log('it is now AI turn')
-
-  // currentArrs = [
-  //   ['X', '', ''],
-  //   ['', 'O', ''],
-  //   ['', '', 'X']
-  // ]
-
-  
-  if (isMiddleCellOpen(currentArrs)) {
-    currentArrs[1][1] = COMPUTER_PLAYER
-  } else if (isTwoXExistInRowHoriOrVerOrDiagnal(currentArrs)) {
-    let emptyCellXY = isTwoXExistInRowHoriOrVerOrDiagnal(currentArrs)
-    currentArrs[emptyCellXY[0]][emptyCellXY[1]] = COMPUTER_PLAYER
-  } else if (isDiagnalAlternating(currentArrs)) {
-    putPlayerInMiddleEdge(currentArrs, 'O')
+  // check tie
+  // if all cells are filled and no winner
+  if (isAllCellsTaken(currentArrs) && !winner) {
+    document.getElementById("user-message").innerHTML = "You tied"
   }
 
 
+
+}
+
+const calculateAIMove = function (currentArrs) {
+
+  // currentArrs = [
+  //   ['X', 'O', 'X'],
+  //   ['X', 'O', 'O'],
+  //   ['O', 'X', 'X']
+  // ]
+
+
+  let emptyCellXY = isTwoPlayerExistInRowHoriOrVerOrDiagnal(currentArrs, 'O')
+  if (emptyCellXY) {
+    currentArrs[emptyCellXY[0]][emptyCellXY[1]] = 'O'
+  } else if (isMiddleCellOpen(currentArrs)) {
+    currentArrs[1][1] = COMPUTER_PLAYER
+    console.log('case 1 success');
+  } else {
+    let emptyCellXY = isTwoPlayerExistInRowHoriOrVerOrDiagnal(currentArrs, 'X')
+    if (emptyCellXY) {
+      currentArrs[emptyCellXY[0]][emptyCellXY[1]] = COMPUTER_PLAYER
+      console.log('case 2 success');
+
+    } else if (isDiagnalAlternating(currentArrs)) {
+      if (!isAll4EdgesAreTaken(currentArrs)) { // if there is space in middle edge
+        putPlayerInMiddleEdge(currentArrs, 'O')
+        console.log('case 3.1 success');
+      } else if (!isAll4CornerTaken(currentArrs)) {
+        // assume there are space in the corner?
+        putPlayerInCorner(currentArrs, 'O')
+        console.log('case 3.2 success');
+      }
+
+    } else {
+      let cornerNotPut = isTwoPlayer1InMiddleEdgeNearEachOtherAndPlayer2AtCenter(currentArrs, 'X', 'O')
+      if (!isAll4CornerTaken(currentArrs)) {
+        putPlayerInCorner(currentArrs, 'O', cornerNotPut)
+        console.log('case 6 success');
+      } else if (currentArrs[1][1] !== '') { // if middle cell is not empty or taken
+        if (!isAll4CornerTaken(currentArrs)) {
+          putPlayerInCorner(currentArrs, 'O')
+          console.log('case 4 success');
+        }
+      } else if (isTwoPlayer1TogetherAndOnePlayer2InOneLineDiagnally(currentArrs, "X", "O")) {
+        if (!isAll4CornerTaken(currentArrs)) {
+          putPlayerInCorner(currentArrs, 'O')
+          console.log('case 5 success');
+        }
+      }
+    }
+  }
+
   return currentArrs;
-  // ifTwoXOnEdgeOneOInMiddle(arrs)
-  // ifTwoXsAndEmptyCell(arrs)
-  // ifOneDiagLineXXO(arrs)
-  // ifOneDiagLineAlternating(arrs)
-
-  // ifMiddleTaken(arrs)
-
 }
 
 const onClick = function () {
@@ -160,6 +215,7 @@ const clearArray = function () {
 }
 const onStartPlayGameAgainstAI = () => {
   arrs = clearArray()
+  $('#user-message').text('')
   $('.bottom-grid').show()
   $('#create-game').show()
   $('#game-index').show()
