@@ -106,7 +106,7 @@ const calculateAIMove = function (currentArrs) {
         console.log('case 3.2 success');
       }
 
-    } else {
+    } else if {
       let cornerNotPut = isTwoPlayer1InMiddleEdgeNearEachOtherAndPlayer2AtCenter(currentArrs, 'X', 'O')
       if (!isAll4CornerTaken(currentArrs)) {
         putPlayerInCorner(currentArrs, 'O', cornerNotPut)
@@ -121,6 +121,15 @@ const calculateAIMove = function (currentArrs) {
           putPlayerInCorner(currentArrs, 'O')
           console.log('case 5 success');
         }
+      }
+    } else {
+      for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+              if (arrs[i][j] == 'O') {
+              }
+          }
+        }
+      }
       }
     }
   }
