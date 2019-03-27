@@ -212,24 +212,6 @@ const onClick = function () {
   const index = $(this).attr('data-cell-index')
   // console.log(index);
   onCellClick(index, arrs)
-
-  // // if you are a guest playing AI
-  // console.log('store as guest', store)
-  // const cellId = $(this).attr('data-cell-index')
-  // console.log('cell id is', cellId)
-  // store.cellId = cellId
-  // console.log('store.cellId on Player X turn is', store.cellId)
-  // // if (decision.alreadyHasAValue(cellId)) {
-  // //   $('#Message').html('choose a different cell')
-  // // } else {
-  // // if (store.game.cells.every(x => x === '')) {
-  // //   store.lastmove = 'x'
-  // $(this).text(store.lastmove)
-  // store.gameBoard[cellId] = store.lastmove
-  // console.log('gameboard if cell is open', store.gameBoard)
-  // decision.sumOfXandO(cellId, 'x')
-  // console.log('store guest playing AI after sumOfXandO', store)
-  // AIturn()
 }
 
 const renderArrs = function (arrs) {
@@ -261,6 +243,7 @@ const clearArray = function () {
   ]
   return arrs
 }
+
 const onStartPlayGameAgainstAI = () => {
   arrs = clearArray()
   $('#user-message').text('')

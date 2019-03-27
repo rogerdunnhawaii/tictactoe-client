@@ -28,7 +28,7 @@ $(() => {
 
   $('#guest-button').on('click', gameEvents.onStartPlayGameAgainstAI)
 
-  gameEvents.onStartPlayGameAgainstAI()
+  // gameEvents.onStartPlayGameAgainstAI()
   // for debugging
   // gameEvents.onGuestClick(arrs);
   // gameEvents.updateUI(arrs);
