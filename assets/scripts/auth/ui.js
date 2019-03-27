@@ -22,6 +22,8 @@ const onSignInSuccess = (responseData) => {
   $('.bottom-buttons').css('display', 'flex')
   $('.bottom-grid').hide()
   $('#guest-button').hide()
+  $('#tictactoe-grid').hide()
+  $("#user-message").hide().text('')
 
   //  store user data
   store.user = responseData.user
@@ -75,6 +77,10 @@ const onSignOutSuccess = (responseData) => {
   $('#create-game').hide()
   $('#game-index').hide()
   $('#tictactoe-grid').hide()
+  $('#guest-button').show()
+
+  $('#create-game').hide()
+  $('#show-game').hide()
 //  $('.tictactoe-grid').hide()
 }
 

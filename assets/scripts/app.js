@@ -37,10 +37,13 @@ $(() => {
   // use userController.onClick
 
   $('#guest-button').on('click', () => {
+
+    $('#create-game').hide()
+    $('#game-index').hide()
+    $("#user-message").show()
+
     $('#user-message').text('')
     $('.bottom-grid').show()
-    $('#create-game').show()
-    $('#game-index').show()
     $('#tictactoe-grid').show()
     aiController.startGame()
     $('.box').off("click")
