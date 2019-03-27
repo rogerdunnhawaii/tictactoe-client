@@ -42,40 +42,61 @@ const onCellClick = function (index, currentArrs) {
 
   // disable the click after a winner is found
   if (checkWinner(currentArrs)) {
-    // todo: uncomment out after testing
     return
   }
 
   // showing the user's new move
   const [x, y] = convertNormalIndexToArrayIndex(index)
 
+  // check click on taken cell
   if (!isCoordinateOpen(currentArrs, x, y)) { // coordinate taken
     alert("You can't click on taken cell")
     return
   }
 
+  // user move
   currentArrs[x][y] = USER_PLAYER
   renderArrs(currentArrs)
 
+  // check winner
+  if (checkWinnerAndRenderMessage(currentArrs)) {
+    return
+  }
+
+  // UI move
   // calcualte computer move and show its move
   let updatedArrsWithAIMove = calculateAIMove(currentArrs)
   renderArrs(updatedArrsWithAIMove);
 
-  // after finished rendering both user and computer move
+  // check winner
+  if (checkWinnerAndRenderMessage(currentArrs)) {
+    return
+  }
+
+}
+
+function checkWinnerAndRenderMessage(currentArrs) {
   let winner = checkWinner(currentArrs)
   if (winner) {
-    console.log('winner is found');
-    document.getElementById("user-message").innerHTML = `winner is ${winner}`
+    console.log('winner is found' + winner);
+    if (winner == 'O') {
+      updateUserMessage("Computer Wins")
+    } else if (winner == 'X') {
+      updateUserMessage("You Win")
+    }
   }
 
   // check tie
   // if all cells are filled and no winner
   if (isAllCellsTaken(currentArrs) && !winner) {
-    document.getElementById("user-message").innerHTML = "You tied"
+    updateUserMessage("You Tied")
   }
 
+  return winner
+}
 
-
+function updateUserMessage(message) {
+  document.getElementById("user-message").innerHTML = message
 }
 
 // let currentArrs = [

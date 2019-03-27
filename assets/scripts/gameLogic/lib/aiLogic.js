@@ -34,6 +34,7 @@ const isAllCellsTaken = (arrs) => {
     return true
 }
 
+// return false if no winner
 const checkWinner = (arrs) => {
 
     // get all possible coordiantes
