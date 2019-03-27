@@ -1,0 +1,182 @@
+@import '~bootstrap/scss/bootstrap';
+
+$black-color: #000;
+
+// div {
+//   border: 1px $black-color solid;
+// }
+.wrapper {
+  .row {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.change-password-button {
+  display: none;
+}
+
+.container {
+  .row {
+    &:nth-of-type(2) {
+      border-top: 10px solid #666666;
+      border-bottom: 10px solid #666666;
+    }
+    .box {
+      &:nth-of-type(2) {
+        border-left: 10px solid #666;
+        border-right: 10px solid #666;
+      }
+    }
+  }
+}
+.grid > div {
+  height: 150px;
+  font-size: 80px;
+}
+
+.update {
+  width: 60px;
+}
+
+#show-game{
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+}
+
+.btn.btn-primary--crisp {
+  border-radius: 0;
+  margin-left: 0;
+  margin-top: 0;
+}
+
+#sign-out {
+  display: none;
+}
+
+#tictactoe-grid {
+  display: none;
+}
+
+.bottom-grid {
+  display: flex;
+  justify-content: center;
+}
+#create-user, #sign-in, #change-password {
+  display: flex;
+  flex-direction:column;
+}
+
+// input.btn.btn-primary {
+//   margin-top: 0;
+// }
+
+.right-side {
+  text-align: center;
+}
+
+.show-input {
+  width: 120px;
+  height: 37px;
+}
+
+
+.game {
+  display: flex;
+  height: 100px;
+  justify-content: flex-end;
+}
+
+.right-side {
+  .btn {
+    // margin-right: 0;
+  }
+}
+
+.bottom {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+   // display: none;
+}
+
+.bottom-buttons {
+  display: flex;
+  flex-direction: row;
+justify-content: center;
+  align-items: center;
+  align-content: center;
+  display: none;
+}
+
+.box {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+h1 {
+  margin: 20px 0 30px 0;
+  text-align: center;
+}
+
+.btn {
+  margin: 30px;
+}
+
+
+// .wrapper {
+//   align-items: flex-start;
+//   display: flex;
+//   flex-direction: column;
+//   height: 900px;
+//   justify-content: center;
+//   width: auto;
+// }
+
+#insideGrid {
+
+//  display: none;
+  margin-top: 40px;
+  color: #35E8CD;
+
+}
+
+.nav.btn-primary {
+  // margin-left:0;
+  // margin-right: 0;
+}
+#Message {
+  text-align: center;
+}
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+nav > div {
+  flex-grow: 1;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #FF0DFF;
+}
+
+.grid {
+  align-items: center;
+  display: flex;
+  height: 150px;
+  text-align: center;
+}
+
+#user-message {
+  text-align: center;
+  font-size: 30px;
+}

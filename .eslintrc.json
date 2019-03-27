@@ -1,0 +1,13 @@
+{
+  "extends": "standard",
+  "root": true,
+  "env": {
+      "node": true,
+      "jquery": true,
+      "browser": true
+  },
+  "rules": {
+    "prefer-const": "error",
+    "no-var": "error"
+  }
+}
