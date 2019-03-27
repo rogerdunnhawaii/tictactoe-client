@@ -4,34 +4,9 @@ const ui = require('./ui')
 const getFormFields = require('../../../lib/get-form-fields')
 const store = require('../store')
 
-const { ifMiddleCellIsOpen,
-  ifMiddleTaken,
-  ifTwoXsAndEmptyCell,
-  ifOneDiagLineXXO,
-  ifTwoXOnEdgeOneOInMiddle,
-  isMiddleCellOpen,
-  isTwoPlayerExistInRowHoriOrVerOrDiagnal,
-  isElementsInLine2OfPlayerAndThirdIsEmpty,
-  isDiagnalAlternating,
-  isCrossAlternating,
-  putPlayerInMiddleEdge,
-  convertNormalIndexToArrayIndex,
-  isAll4EdgesAreTaken,
-  putPlayerInCorner,
-  isAll4CornerTaken,
-  isCoordinateOpen,
-  isTwoPlayer1TogetherAndOnePlayer2InOneLineDiagnally,
-  isTwoPlayer1InMiddleEdgeNearEachOtherAndPlayer2AtCenter,
-  checkWinner,
-  isAllCellsTaken
-} = require("./lib/aiLogic");
 
-let arrs = [
-  ['', '', ''],
-  ['', '', ''],
-  ['', '', '']
-]
 
+<<<<<<< HEAD
 const USER_PLAYER = 'X'
 const COMPUTER_PLAYER = 'O'
 
@@ -293,6 +268,8 @@ const onUpdateGame = function (event) {
     .then(ui.onUpdateGameSuccess)
     .catch(ui.onUpdateGameFailure)
 }
+=======
+>>>>>>> AI
 
 
 
@@ -308,15 +285,3 @@ const onUpdateGame = function (event) {
 // }
 
 
-
-module.exports = {
-  onGameIndex,
-  onCreateGame,
-  onShowGame,
-  onUpdateGame,
-  onClick,
-  onViewGame,
-  onClose,
-  onStartPlayGameAgainstAI,
-  renderArrs
-}

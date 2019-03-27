@@ -1,159 +1,165 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <title>Roger's Version of TicTacToe</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
 
-      <!-- Do not add `link` tags-->
-      <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-      <link href="https://fonts.googleapis.com/css?family=Happy+Monkey" rel="stylesheet">
+<head>
+  <title>Roger's Version of TicTacToe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-      <!-- Do not add `script` tags-->
-      <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
-      <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
-    </head>
-    <body>
+  <!-- Do not add `link` tags-->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Happy+Monkey" rel="stylesheet">
 
-      <div class="wrapper">
+  <!-- Do not add `script` tags-->
+  <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
+</head>
 
-          <nav>
-            <div class="row nav">
-              <div class="sign-up-button">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sign-up-modal">
-                Sign Up
-                </button>
-              </div>
+<body>
 
-              <div class="sign-in-button">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sign-in-modal">
-                Sign In
-                </button>
-              </div>
+  <div class="wrapper">
 
-              <div>
-                <button id="guest-button" type="button" class="btn btn-primary">
-                Play Game against AI
-                </button>
-              </div>
+    <nav>
+      <div class="row nav">
+        <div class="sign-up-button">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sign-up-modal">
+            Sign Up
+          </button>
+        </div>
 
-              <div class="change-password-button">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#change-password-modal">
-                Change Password
-                </button>
-              </div>
+        <div class="sign-in-button">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sign-in-modal">
+            Sign In
+          </button>
+        </div>
 
-              <div class="sign-out-div">
-                <button id="sign-out" class="btn btn-primary" name="button">Sign Out</button>
-              </div>
-            </div>
-          </nav>
+        <div>
+          <button id="guest-button" type="button" class="btn btn-primary">
+            Play Game against AI
+          </button>
+        </div>
 
-            <!-- Button trigger modal -->
+        <div class="change-password-button">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#change-password-modal">
+            Change Password
+          </button>
+        </div>
+
+        <div class="sign-out-div">
+          <button id="sign-out" class="btn btn-primary" name="button">Sign Out</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Button trigger modal -->
 
 
-            <!-- Modal -->
-            <div class="modal fade" id="sign-up-modal" tabindex="-1" role="dialog" aria-labelledby="sign-up-Label" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="sign-up-Label">Register</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-
-                    <form id="create-user">
-                      <input name="credentials[email]" type="email" placeholder="enter email">
-                      <input name="credentials[password]" type="password" placeholder="enter new password">
-                      <input name="credentials[password_confirmation]" type="password" placeholder="confirm new password">
-                      <input type="submit" class="btn btn-primary" value="Register">
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="modal fade" id="sign-in-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Sign In</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-
-                    <form id="sign-in">
-                      <input name="credentials[email]" autofocus="autofocus" type="email" value="" placeholder="enter email"/>
-                      <input name="credentials[password]" type="password" value="" placeholder="enter password">
-                      <input type="submit" class="btn btn-primary" value="Sign In">
-                    </form>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="modal fade" id="change-password-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-
-                  <form id='change-password'>
-                    <input type="text" name="passwords[old]" placeholder="what's your old password">
-                    <input type="text" name="passwords[new]" placeholder="please enter new password">
-                    <input type="submit" class="btn btn-primary" value="time to change password!">
-                  </form>
-                </div>
-              </div>
-            </div>
-            </div>
-
-            <div class="modal fade" id="modalGameList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="modalGameListTitle">Game List</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div id="game-list" class="modal-body">
-
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>Game ID</th>
-                        <th>Cells</th>
-                        <th>Game is Over</th>
-                        <th>Player X email</th>
-                      </tr>
-                    </thead>
-                      <tbody id="game-table-body"></tbody>
-
-                  </table>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          <h1>Roger's Version of Tic Tac Toe</h1>
-
-              <div id="Message"></div>
-              <div class="" id='user-message'></div>
+    <!-- Modal -->
+    <div class="modal fade" id="sign-up-modal" tabindex="-1" role="dialog" aria-labelledby="sign-up-Label"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sign-up-Label">Register</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
+          <div class="modal-body">
 
-    <div class="container" id="insideGrid">
+            <form id="create-user">
+              <input name="credentials[email]" type="email" placeholder="enter email">
+              <input name="credentials[password]" type="password" placeholder="enter new password">
+              <input name="credentials[password_confirmation]" type="password" placeholder="confirm new password">
+              <input type="submit" class="btn btn-primary" value="Register">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="sign-in-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sign In</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <form id="sign-in">
+              <input name="credentials[email]" autofocus="autofocus" type="email" value="" placeholder="enter email" />
+              <input name="credentials[password]" type="password" value="" placeholder="enter password">
+              <input type="submit" class="btn btn-primary" value="Sign In">
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="change-password-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <form id='change-password'>
+              <input type="text" name="passwords[old]" placeholder="what's your old password">
+              <input type="text" name="passwords[new]" placeholder="please enter new password">
+              <input type="submit" class="btn btn-primary" value="time to change password!">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalGameList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalGameListTitle">Game List</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div id="game-list" class="modal-body">
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Game ID</th>
+                  <th>Cells</th>
+                  <th>Game is Over</th>
+                  <th>Player X email</th>
+                </tr>
+              </thead>
+              <tbody id="game-table-body"></tbody>
+
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1>Roger's Version of Tic Tac Toe</h1>
+
+    <div id="Message"></div>
+    <div class="" id='user-message'></div>
+  </div>
+
+  <div class="container" id="insideGrid">
     <div class="row bottom-grid">
       <div class="col-12 col-md-8" id="tictactoe-grid">
         <div class="row grid">
@@ -174,13 +180,15 @@
       </div>
     </div>
     <div class="bottom-buttons" id="creategame-center">
-        <button id='create-game' class="btn btn-primary">Start a New Game</button>
-       <button class="btn btn-primary" id='game-index' data-toggle="modal" data-target="#modalGameList">See all past games played</button>
+      <button id='create-game' class="btn btn-primary">Play game on this computer with another person</button>
+      <button class="btn btn-primary" id='game-index' data-toggle="modal" data-target="#modalGameList">See all past
+        games played</button>
 
-    </div>
     </div>
   </div>
+  </div>
 
-    </div>
-  </body>
+  </div>
+</body>
+
 </html>

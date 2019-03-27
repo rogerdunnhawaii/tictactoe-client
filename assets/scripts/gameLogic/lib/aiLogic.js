@@ -1,3 +1,28 @@
+const putPlayerInCoord = (arrs, player, x, y) => {
+    arrs[x][y] = player
+    return arrs
+}
+
+
+// end: where the range ends, before this number
+const randomInt = (start, end) => { 
+    let random = Math.floor(Math.random(start) * end)
+    return random
+}
+
+const findEmptyCells = (arrs) => {
+    let emptyCellCoordinates = []
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (arrs[i][j] == '') {
+                emptyCellCoordinates.push([i, j])
+            }
+        }
+    }
+    return emptyCellCoordinates
+}
+
+
 const isAllCellsTaken = (arrs) => {
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
@@ -9,6 +34,7 @@ const isAllCellsTaken = (arrs) => {
     return true
 }
 
+// return false if no winner
 const checkWinner = (arrs) => {
 
     // get all possible coordiantes
@@ -232,6 +258,15 @@ const isTwoPlayerExistInRowHoriOrVerOrDiagnal = function (arrs, player) {
     }
 
 }
+
+const clearArray = function () {
+    const arrs = [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', '']
+    ]
+    return arrs
+  }
 
 const generateAllPossibleCoordinatesOfLines = function () {
 
@@ -476,5 +511,9 @@ module.exports = {
     isTwoPlayer1TogetherAndOnePlayer2InOneLineDiagnally,
     isTwoPlayer1InMiddleEdgeNearEachOtherAndPlayer2AtCenter,
     checkWinner,
-    isAllCellsTaken
+    isAllCellsTaken,
+    findEmptyCells,
+    randomInt,
+    putPlayerInCoord,
+    clearArray
 }
