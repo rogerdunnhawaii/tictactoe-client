@@ -5,31 +5,45 @@
 
 // use require without a reference to ensure a file is bundled
 // require('./example')
-const events = require('./auth/events.js')
-const gameEvents = require('./gameLogic/events.js')
+const authEvents = require('./auth/events.js')
+const aiController = require('./gameLogic/aiController.js')
+const userController = require('./gameLogic/userController.js')
+
 const store = require('./store')
 
 $(() => {
   store.guest = false
-  $('#create-user').on('submit', events.onCreateUser)
-  $('#sign-in').on('submit', events.onSignIn)
-  $('#sign-out').on('click', events.onSignOut)
-  $('#change-password').on('submit', events.onChangePassword)
-  $('.close').click(events.onClose)
+  $('#create-user').on('submit', authEvents.onCreateUser)
+  $('#sign-in').on('submit', authEvents.onSignIn)
+  $('#sign-out').on('click', authEvents.onSignOut)
+  $('#change-password').on('submit', authEvents.onChangePassword)
+  $('.close').click(authEvents.onClose)
 
-  $('#game-index').on('click', gameEvents.onGameIndex)
-  $('#create-game').on('click', gameEvents.onCreateGame)
-  $('#show-game').on('submit', gameEvents.onShowGame)
-  $('#update-game').on('submit', gameEvents.onUpdateGame)
+  $('#game-index').on('click', userController.onGameIndex)
+  $('#create-game').on('click', (event) => {
+    $('.box').off("click")
+    $('.box').click(userController.onClick)
+    userController.onCreateGame(event)
+  })
+  $('#show-game').on('submit', userController.onShowGame)
+  $('#update-game').on('submit', userController.onUpdateGame)
 
-  $('.table').on('click', '.view-game', gameEvents.onViewGame)
-  $('.close').click(gameEvents.onClose)
-  $('.box').click(gameEvents.onClick)
+  $('.table').on('click', '.view-game', userController.onViewGame)
+  $('.close').click(userController.onClose)
 
-  $('#guest-button').on('click', gameEvents.onStartPlayGameAgainstAI)
+  // if guest (not signed in)
+  // use aiController.onClick
+  // else if // todo
+  // use userController.onClick
 
-  // gameEvents.onStartPlayGameAgainstAI()
-  // for debugging
-  // gameEvents.onGuestClick(arrs);
-  // gameEvents.updateUI(arrs);
+  $('#guest-button').on('click', () => {
+    $('#user-message').text('')
+    $('.bottom-grid').show()
+    $('#create-game').show()
+    $('#game-index').show()
+    $('#tictactoe-grid').show()
+    aiController.startGame()
+    $('.box').off("click")
+    $('.box').click(aiController.onClick)
+  })
 })

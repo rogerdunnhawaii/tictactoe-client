@@ -259,6 +259,15 @@ const isTwoPlayerExistInRowHoriOrVerOrDiagnal = function (arrs, player) {
 
 }
 
+const clearArray = function () {
+    const arrs = [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', '']
+    ]
+    return arrs
+  }
+
 const generateAllPossibleCoordinatesOfLines = function () {
 
     let allPossibleIndexes = [];
@@ -505,5 +514,6 @@ module.exports = {
     isAllCellsTaken,
     findEmptyCells,
     randomInt,
-    putPlayerInCoord
+    putPlayerInCoord,
+    clearArray
 }

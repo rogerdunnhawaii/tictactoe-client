@@ -21,6 +21,7 @@ const onSignInSuccess = (responseData) => {
   $('#Message').html('Successfully Signed in')
   $('.bottom-buttons').css('display', 'flex')
   $('.bottom-grid').hide()
+  $('#guest-button').hide()
 
   //  store user data
   store.user = responseData.user
