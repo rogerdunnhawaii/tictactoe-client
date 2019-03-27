@@ -77,3 +77,13 @@ Your app must not:
  Use alerts for anything.  - check
  Display errors or warnings in the console. - check
  Display debugging messages in the console. - check
+
+
+# push to github pages
+
+1. git checkout gh-pages
+2. git merge main-branch
+3. make sure application.js and vendor.js is not ignored (delete from .gitignore)
+4. run `grunt build`
+5. commit and push
+6. wait a few seconds for github page to update
