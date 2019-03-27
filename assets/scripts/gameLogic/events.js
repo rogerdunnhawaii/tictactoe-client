@@ -23,7 +23,10 @@ const { ifMiddleCellIsOpen,
   isTwoPlayer1TogetherAndOnePlayer2InOneLineDiagnally,
   isTwoPlayer1InMiddleEdgeNearEachOtherAndPlayer2AtCenter,
   checkWinner,
-  isAllCellsTaken
+  isAllCellsTaken,
+  findEmptyCells,
+  randomInt,
+  putPlayerInCoord
 } = require("./lib/aiLogic");
 
 let arrs = [
@@ -75,28 +78,39 @@ const onCellClick = function (index, currentArrs) {
 
 }
 
+// let currentArrs = [
+//   ['', 'O', 'X'],
+//   ['X', '', 'O'],
+//   ['X', 'X', '']
+// ]
+
+
+
+
 const calculateAIMove = function (currentArrs) {
-
-  // currentArrs = [
-  //   ['X', 'O', 'X'],
-  //   ['X', 'O', 'O'],
-  //   ['O', 'X', 'X']
-  // ]
-
 
   let emptyCellXY = isTwoPlayerExistInRowHoriOrVerOrDiagnal(currentArrs, 'O')
   if (emptyCellXY) {
+    // 7. if two player 2 in a line and 1 empty space
+    // put player 2 in the empty space
     currentArrs[emptyCellXY[0]][emptyCellXY[1]] = 'O'
   } else if (isMiddleCellOpen(currentArrs)) {
+    // if middle if open, put O there
     currentArrs[1][1] = COMPUTER_PLAYER
     console.log('case 1 success');
   } else {
     let emptyCellXY = isTwoPlayerExistInRowHoriOrVerOrDiagnal(currentArrs, 'X')
     if (emptyCellXY) {
+      // 2.if two Xs in horitiozntal, vertical, diagnoal, 1 empty, then put O in the empty one
       currentArrs[emptyCellXY[0]][emptyCellXY[1]] = COMPUTER_PLAYER
       console.log('case 2 success');
 
     } else if (isDiagnalAlternating(currentArrs)) {
+      //  3.for cases where in a row (horizontal, vertial, diagal), and elements alternate, 
+      // 	check each row and column nad diagallnaly
+      // 		select a empty middle egde
+      // (dignall)
+      // (cross)
       if (!isAll4EdgesAreTaken(currentArrs)) { // if there is space in middle edge
         putPlayerInMiddleEdge(currentArrs, 'O')
         console.log('case 3.1 success');
@@ -109,18 +123,31 @@ const calculateAIMove = function (currentArrs) {
     } else {
       let cornerNotPut = isTwoPlayer1InMiddleEdgeNearEachOtherAndPlayer2AtCenter(currentArrs, 'X', 'O')
       if (!isAll4CornerTaken(currentArrs)) {
+        // 6.go to an empty corner, where it touching a X
         putPlayerInCorner(currentArrs, 'O', cornerNotPut)
         console.log('case 6 success');
       } else if (currentArrs[1][1] !== '') { // if middle cell is not empty or taken
-        if (!isAll4CornerTaken(currentArrs)) {
+        // 4.if X is in the middle
+        // put O in one of the 4 corners
+        if (!isAll4CornerTaken(currentArrs)) { // make sure there is available cell
           putPlayerInCorner(currentArrs, 'O')
           console.log('case 4 success');
         }
       } else if (isTwoPlayer1TogetherAndOnePlayer2InOneLineDiagnally(currentArrs, "X", "O")) {
-        if (!isAll4CornerTaken(currentArrs)) {
+        //5.dignally, if two X and O in one line
+        // go to an empty corner
+        if (!isAll4CornerTaken(currentArrs)) { // make sure there is available cell
           putPlayerInCorner(currentArrs, 'O')
           console.log('case 5 success');
         }
+      } else {
+        // 8. in all other cases, write O in empty cell
+        // put O in random empty cell
+        let emptyCellsCoords = findEmptyCells(currentArrs)
+        let random = randomInt(0, emptyCellsCoords.length)
+        let randomEmptyCoord = emptyCellsCoords[random]
+        currentArrs = putPlayerInCoord(currentArrs, 'O', randomEmptyCoord[0], randomEmptyCoord[1])
+        console.log('case 8 success');
       }
     }
   }
